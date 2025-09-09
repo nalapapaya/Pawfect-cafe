@@ -1,0 +1,110 @@
+.modalOverlay {
+  position: fixed;
+  inset: 0; /* stretch and fill screen */
+  background: rgba(255, 255, 255, 0.2);
+  display: grid;
+  place-items: center;
+  z-index: 50;
+}
+
+.modalCtn {
+  border: 6px solid #9a5e1e; /* thick outer outline */
+  background: #f0b352;
+  border-radius: 36px;
+  position: relative;
+  height: 20rem;
+  width: 40rem;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  align-items: center;
+margin: 2rem;
+}
+
+.modalCtn::before {
+  content: "";
+  position: absolute;
+  inset: 8px; /* distance from edge */
+  background: #cfeee0;
+  border: 6px solid #9a5e1e; /* inner outline */
+  border-radius: 26px;
+  box-shadow: inset 0 -8px 0 0 #b8ddcf;
+}
+
+.modalTitle {
+  position: relative;
+  z-index: 1;
+  font: 800 50px/1.05 "Baloo 2", "Fredoka", system-ui, sans-serif;
+  letter-spacing: 0.5px;
+  color: #ffe7ca;
+  text-shadow: 0 -3px 0 #9a5e1e, 3px 0 0 #9a5e1e, -3px 0 0 #9a5e1e,
+    2px 2px 0 #9a5e1e, -2px 2px 0 #9a5e1e, 2px -2px 0 #9a5e1e,
+    -2px -2px 0 #9a5e1e;
+  margin-top: 1.8rem;
+}
+
+.modalLabel {
+  position: relative;
+  z-index: 1;
+  font: 800 30px/1.05 "Baloo 2", "Fredoka", system-ui, sans-serif;
+  letter-spacing: 0.5px;
+  color: #ffe7ca;
+  text-shadow: 0 -3px 0 #9a5e1e, 3px 0 0 #9a5e1e, -3px 0 0 #9a5e1e,
+    2px 2px 0 #9a5e1e, -2px 2px 0 #9a5e1e, 2px -2px 0 #9a5e1e,
+    -2px -2px 0 #9a5e1e;
+  margin-top: 1.5rem;
+  display: flex;
+  gap: 1rem;
+  align-items: first baseline;
+}
+
+.modalInput {
+  height: 1.8rem;
+  font-size: 28px;
+  border-radius: 12px;
+  border: 3px solid #9a5e1e;
+}
+
+.modalSubmit{
+  border: 3px solid #9a5e1e;
+  background: #f0b352;
+  border-radius: 36px;
+  padding: 20px 30px;
+  position: relative;
+  cursor: pointer;
+  margin-top: 10px;
+  box-shadow: 0 6px 0 0 #d99634, 0 10px 0 2px rgba(0, 0, 0, 0.08);
+  transition: transform 0.06s ease, box-shadow 0.06s ease, filter 0.06s ease;
+}
+
+.modalSubmit::before {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  background: #FFD1DC;
+  border: 3px solid #9a5e1e;
+  border-radius: 26px;
+  box-shadow: inset 0 -8px 0 0 #e2b6c0;
+}
+
+.modalSubmit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 0 #d99634, 0 8px 0 4px rgba(0, 0, 0, 0.08);
+}
+
+.modalSubmit:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 0 #d99634, 0 6px 0 2px rgba(0, 0, 0, 0.06);
+  filter: saturate(0.95);
+}
+
+.modalBtnLabel{
+     position: relative;
+  z-index: 1;
+  font: 800 30px/1.05 "Baloo 2", "Fredoka", system-ui, sans-serif;
+  letter-spacing: 0.5px;
+  color: #ffe7ca;
+  text-shadow: 0 3px 0 #9a5e1e, 0 -3px 0 #9a5e1e, 3px 0 0 #9a5e1e,
+    -3px 0 0 #9a5e1e, 2px 2px 0 #9a5e1e, -2px 2px 0 #9a5e1e, 2px -2px 0 #9a5e1e,
+    -2px -2px 0 #9a5e1e;
+}
