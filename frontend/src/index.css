@@ -1,0 +1,4 @@
+body { 
+  margin: 0; /* remove border */
+  overflow-x: hidden; /* prevent child from spilling */
+}

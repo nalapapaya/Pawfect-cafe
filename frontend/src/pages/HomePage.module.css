@@ -1,0 +1,97 @@
+.homeCtn {
+  background-image: url("./src/assets/gamePlay/frontPage.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 100%;
+  min-height: 100svh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.logoImg {
+  width: min(90vw, 560px);
+  max-width: 50svw;
+}
+
+.homeBtnCtn{
+    display:flex;
+    gap: 3rem;
+}
+
+.authBtn {
+  appearance: none;
+  border: 0.3rem solid #9a5e1e;
+  background: #f0b352;
+  border-radius: 2.5rem;
+  padding: 1.2rem 2.5rem;
+  position: relative;
+  cursor: pointer;
+  box-shadow: 0 6px 0 0 #d99634, 0 10px 0 2px rgba(0, 0, 0, 0.08);
+  transition: transform 0.06s ease, box-shadow 0.06s ease, filter 0.06s ease;
+}
+
+.authBtn::before {
+  content: ""; /* will not exist without content */
+  position: absolute;
+  inset: 8px;
+  background: #cfeee0;
+  border: 4px solid #9a5e1e;
+  border-radius: 26px;
+  box-shadow: inset 0 -8px 0 0 #b8ddcf;
+}
+
+.authBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 0 0 #d99634, 0 12px 0 4px rgba(0, 0, 0, 0.08);
+}
+
+.authBtn:active {
+  transform: translateY(2px);
+  box-shadow: 0 4px 0 0 #d99634, 0 8px 0 2px rgba(0, 0, 0, 0.06);
+  filter: saturate(0.95);
+}
+
+.authLabel {
+  position: relative;
+  z-index: 1;
+  font: 800 2.2rem/1.05 "Baloo 2", "Fredoka", system-ui, sans-serif;
+  letter-spacing: 0.5px;
+  color: #ffe7ca;
+  text-shadow: 0 3px 0 #9a5e1e, 0 -3px 0 #9a5e1e, 3px 0 0 #9a5e1e,
+    -3px 0 0 #9a5e1e, 2px 2px 0 #9a5e1e, -2px 2px 0 #9a5e1e, 2px -2px 0 #9a5e1e,
+    -2px -2px 0 #9a5e1e;
+}
+
+@media (max-width: 600px) {
+  .authBtn {
+    padding: 0.5rem 1.5rem;
+    border-radius: 1.5rem;
+    border: 0.15rem solid #9a5e1e;
+    box-shadow: 0 0.1rem 0 0 #d99634, 0 0.3rem 0 2px rgba(0, 0, 0, 0.08);
+  }
+
+  .authBtn::before {
+  content: "";
+  position: absolute;
+  inset: 0.3rem;
+  border: 0.15rem solid #9a5e1e;
+  border-radius: 2rem;
+  box-shadow: inset 0 0 0 0 #b8ddcf;
+}
+
+.authBtn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 0.2rem 0 0 #d99634, 0 0.3rem 0 0.2rem rgba(0, 0, 0, 0.08);
+}
+
+  .authLabel {
+    font-size: 1rem;
+    text-shadow: 0 1px 0 #9a5e1e, 0 -1px 0 #9a5e1e, 1px 0 0 #9a5e1e,
+    -1px 0 0 #9a5e1e, 1px 1px 0 #9a5e1e, -1px 1px 0 #9a5e1e, 1px -1px 0 #9a5e1e,
+    -1px -1px 0 #9a5e1e;
+  }
+}
