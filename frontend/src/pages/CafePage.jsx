@@ -1,15 +1,12 @@
 import React from "react";
-import Banner from "../components/Banner";
+import styles from "./CafePage.module.css"
 import NavBar from "../components/NavBar";
 
 const CafePage = () => {
   return (
-    <>
-      <div className="cafeCtn">
-        <Banner />
-        <NavBar />
+      <div className={styles.cafePageCtn}>
+<NavBar />
       </div>
-    </>
   );
 };
 

@@ -1,7 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./Modal.module.css";
+import useFetch from "../hooks/useFetch";
 
 const RegisterModal = ({ onClose }) => {
+  const fetchData = useFetch();
+  const [error, setError] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
+
+  const handleSubmit = async () => {
+    setError("");
+
+    const res = await fetchData("/", "PUT", {
+      username,
+      password,
+    });
+
+    if (res.ok) {
+      setMessage("Registration successful! Please log in.");
+    } else {
+      setError(res.message);
+    }
+  };
+
   return (
     <div className={styles.modalOverlay} onClick={onClose}>
       {/* Click outside to close */}
@@ -13,14 +35,33 @@ const RegisterModal = ({ onClose }) => {
         <div className={styles.modalTitle}>Register</div>
         <div className={styles.modalLabel}>
           Username:
-          <input type="text" className={styles.modalInput} />
+          <input
+            type="text"
+            className={styles.modalInput}
+            value={username}
+            onChange={(event) => setUsername(event.target.value)}
+          />
         </div>
         <div className={styles.modalLabel}>
           Password:
-          <input type="password" className={styles.modalInput} />
+          <input
+            type="password"
+            className={styles.modalInput}
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
+          />
         </div>
-        <button className={styles.modalSubmit}>
-          <span className={styles.modalBtnLabel}>Submit</span>
+        {error ? (
+          <div>{error}</div>
+        ) : message ? (
+          <div>{message}</div>
+        ) : (
+          <>&nbsp;</>
+        )}
+        <button className={styles.modalSubmit} onClick={handleSubmit}>
+          <span className={styles.modalBtnLabel}>
+            Submit
+          </span>
         </button>
       </div>
     </div>

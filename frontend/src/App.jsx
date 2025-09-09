@@ -1,11 +1,16 @@
 import React from "react";
 import HomePage from "./pages/HomePage";
+import {Routes, Route} from "react-router-dom";
+import CafePage from "./pages/CafePage";
 
 const App = () => {
   return (
     <>
       <div className="appCtn">
-        <HomePage />
+        <Routes>
+           <Route path="/" element={<HomePage />} />
+          <Route path="/cafe" element={<CafePage />} />
+        </Routes>
       </div>
     </>
   );

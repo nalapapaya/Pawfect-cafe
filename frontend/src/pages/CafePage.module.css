@@ -1,0 +1,10 @@
+.cafePageCtn {
+  background-image: url("./src/assets/gamePlay/cafePage.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center 70%; /* to lift image up */
+  width: 100%;
+  min-height: 100svh;
+  overflow: hidden;
+}
+
