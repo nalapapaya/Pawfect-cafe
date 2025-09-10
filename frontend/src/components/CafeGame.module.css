@@ -50,3 +50,59 @@
   top: 20%;
   left: 75%;
 }
+
+.bowl {
+  width: 20rem;
+  height: 10rem;
+  object-fit: contain;
+  object-position: bottom;
+  position: fixed;
+  top: 65%;
+  left: 37%;
+  z-index: 1;
+}
+
+.skipBtn {
+  z-index: 999;
+  position: fixed;
+  top: 65%;
+  left: 60%;
+  border: 3px solid #9a5e1e;
+  background: #f0b352;
+  border-radius: 36px;
+  padding: 20px 30px;
+  margin-top: 10px;
+  box-shadow: 0 4px 0 0 #d99634, 0 6px 0 2px rgba(0, 0, 0, 0.08);
+  transition: transform 0.06s ease, box-shadow 0.06s ease, filter 0.06s ease;
+}
+
+.skipBtn::before {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  background: #ffd1dc;
+  border: 3px solid #9a5e1e;
+  border-radius: 26px;
+  box-shadow: inset 0 -8px 0 0 #e2b6c0;
+}
+
+.skipBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 0 #d99634, 0 8px 0 4px rgba(0, 0, 0, 0.08);
+}
+
+.skipBtn:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 0 #d99634, 0 4px 0 2px rgba(0, 0, 0, 0.08);
+}
+
+.skipText {
+  position: relative;
+  z-index: 1;
+  font: 800 30px/1.05 "Baloo 2", "Fredoka", system-ui, sans-serif;
+  letter-spacing: 0.5px;
+  color: #ffe7ca;
+  text-shadow: 0 3px 0 #9a5e1e, 0 -3px 0 #9a5e1e, 3px 0 0 #9a5e1e,
+    -3px 0 0 #9a5e1e, 2px 2px 0 #9a5e1e, -2px 2px 0 #9a5e1e, 2px -2px 0 #9a5e1e,
+    -2px -2px 0 #9a5e1e;
+}
