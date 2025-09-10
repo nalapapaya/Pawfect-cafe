@@ -3,13 +3,16 @@
   background: #f0b352;
   border-radius: 36px;
   margin: 1rem;
-  position: relative;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
   height: 5rem;
   width: 20rem;
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-  padding:0.2rem;
+  padding: 0.2rem;
+  z-index: 999;
 }
 
 .navBarCtn::before {

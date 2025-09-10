@@ -5,7 +5,6 @@ import NavBar from "../components/NavBar";
 const CafePage = () => {
   return (
       <div className={styles.cafePageCtn}>
-<NavBar />
       </div>
   );
 };
