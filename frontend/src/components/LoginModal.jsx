@@ -1,14 +1,18 @@
-import React from 'react';
+import React, { useState } from "react";
 import styles from "./Modal.module.css";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useGame } from "../context/GameContext";
 
 const LoginModal = ({ onClose }) => {
-    const navigate = useNavigate();
-    
-    const handleSubmit = () => {
-        navigate("/cafe");
-        onClose();
-    };
+  const navigate = useNavigate();
+  const { setUsername } = useGame();
+  const [inputValue, setInputValue] = useState("");
+
+  const handleSubmit = () => {
+    setUsername(inputValue); // Example username, replace with actual input value
+    navigate("/cafe");
+    onClose();
+  };
 
   return (
     <div className={styles.modalOverlay} onClick={onClose}>
@@ -21,7 +25,12 @@ const LoginModal = ({ onClose }) => {
         <div className={styles.modalTitle}>Login</div>
         <div className={styles.modalLabel}>
           Username:
-          <input type="text" className={styles.modalInput} />
+          <input
+            type="text"
+            className={styles.modalInput}
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+          />
         </div>
         <div className={styles.modalLabel}>
           Password:

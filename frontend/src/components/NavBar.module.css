@@ -31,7 +31,6 @@
 .settingsBtn {
   border: none;
   background: transparent;
-  cursor: pointer;
   position: relative;
   z-index: 1;
 }

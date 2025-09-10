@@ -1,0 +1,52 @@
+.cafeGameCtn {
+  z-index: 999;
+}
+
+.petChar {
+  width: 15rem;
+  height: 30rem;
+  object-fit: cover;
+  object-position: bottom;
+  position: fixed;
+  left: 40%;
+  top: 18%;
+  background-color: black;
+}
+
+.speechCtn {
+  width: 20rem;
+  height: 13rem;
+  background-image: url("../assets/gamePlay/speechBubble.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  position: fixed;
+  left: 60%;
+  top: 10%;
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  grid-template-rows: repeat(6, 1fr);
+  place-items: center;
+  padding: 1rem;
+}
+
+.speechItem {
+  width: 10rem;
+  object-fit: cover;
+  grid-column: 2;
+  grid-row: 2/5;
+}
+
+.speechHeart {
+  width: 9rem;
+  object-fit: cover;
+  grid-column: 2;
+  grid-row: 2/5;
+  margin-top: 1rem;
+}
+
+.feedBtn {
+  z-index: 999;
+  position: fixed;
+  top: 20%;
+  left: 75%;
+}

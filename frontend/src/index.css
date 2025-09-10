@@ -1,4 +1,9 @@
 body { 
   margin: 0; /* remove border */
   overflow-x: hidden; /* prevent child from spilling */
+  cursor: url("../assets/cursor.png"), auto; /* custom cursor */
+}
+
+button {
+  cursor: url("../assets/cursor.png"), pointer;
 }

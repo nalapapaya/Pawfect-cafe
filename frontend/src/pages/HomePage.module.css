@@ -28,7 +28,6 @@
   border-radius: 2.5rem;
   padding: 1.2rem 2.5rem;
   position: relative;
-  cursor: pointer;
   box-shadow: 0 6px 0 0 #d99634, 0 10px 0 2px rgba(0, 0, 0, 0.08);
   transition: transform 0.06s ease, box-shadow 0.06s ease, filter 0.06s ease;
 }

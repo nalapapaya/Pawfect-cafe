@@ -1,9 +1,11 @@
 import React from "react";
 import styles from "./Banner.module.css";
 import { useNavigate } from "react-router-dom";
+import {useGame} from "../context/GameContext";
 
 const Banner = () => {
   const nav = useNavigate();
+  const {coinCount, heartCount, username} = useGame();
 
   const goToSettings = () => {
     nav("/settings");
@@ -12,7 +14,7 @@ const Banner = () => {
   return (
     <div className={styles.bannerCtn}>
       <button className={styles.userDisplayCtn} onClick={goToSettings}>
-        <span className={styles.usernameLabel}>Maddy</span>
+        <span className={styles.usernameLabel}>{username}</span>
       </button>
       <div className={styles.meterCtn}>
         <div className={styles.heartCtn}>
@@ -21,7 +23,7 @@ const Banner = () => {
             alt="Hearts"
             className={styles.meterImg}
           />
-          <span className={styles.meterCount}>999999</span>
+          <span className={styles.meterCount}>{heartCount}</span>
         </div>
         <div className={styles.coinCtn}>
           <img
@@ -29,7 +31,7 @@ const Banner = () => {
             alt="Coins"
             className={styles.meterImg}
           />
-          <span className={styles.meterCount}>999999</span>
+          <span className={styles.meterCount}>{coinCount}</span>
         </div>
       </div>
     </div>
