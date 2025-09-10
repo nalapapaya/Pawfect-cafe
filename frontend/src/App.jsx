@@ -6,6 +6,7 @@ import KitchenPage from "./pages/KitchenPage";
 import OrdersPage from "./pages/OrdersPage";
 import SettingsPage from "./pages/SettingsPage";
 import NavBar from "./components/NavBar";
+import Banner from "./components/Banner";
 
 const App = () => {
   const location = useLocation(); //gets current pathname
@@ -22,7 +23,7 @@ const App = () => {
           <Route path="/settings" element={<SettingsPage />} />
         </Routes>
       </div>
-      {!hideNav && <NavBar />}
+      {!hideNav && <><NavBar /> <Banner /></>}
       {/* dont show on HomePage only */}
     </>
   );
