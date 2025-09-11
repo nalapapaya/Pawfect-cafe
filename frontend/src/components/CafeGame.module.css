@@ -9,8 +9,8 @@
   object-position: bottom;
   position: fixed;
   left: 40%;
-  top: 18%;
-  background-color: black;
+  top: 25%;
+  /* background-color: black; */
 }
 
 .speechCtn {

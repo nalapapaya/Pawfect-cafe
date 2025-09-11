@@ -6,7 +6,7 @@ const InventoryCard = ({ item, onDispose }) => {
     <div>
       <h4>{item.name}</h4>
       <p>Quantity: {item.qty}</p>
-      <button onClick={onDispose}>Dispose</button>
+      {/* <button onClick={onDispose}>Dispose</button> */}
     </div>
   );
 };

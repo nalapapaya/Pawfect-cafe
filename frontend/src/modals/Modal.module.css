@@ -107,3 +107,13 @@
     -3px 0 0 #9a5e1e, 2px 2px 0 #9a5e1e, -2px 2px 0 #9a5e1e, 2px -2px 0 #9a5e1e,
     -2px -2px 0 #9a5e1e;
 }
+
+.errorMessage{
+  z-index: 9999;
+  margin-top: .4rem;
+}
+
+.successMessage{
+  z-index: 9999;
+  margin-top: .4rem;
+}

@@ -10,6 +10,14 @@ const RegisterModal = ({ onClose }) => {
   const [message, setMessage] = useState("");
 
   const handleSubmit = async () => {
+    if (!username || !password) {
+      setError("Username and password are required");
+      return;
+    }
+    if (password.length < 12) {
+      setError("Password must be at least 12 characters");
+      return;
+    }
     setError("");
 
     const res = await fetchData("/", "PUT", {
@@ -52,16 +60,15 @@ const RegisterModal = ({ onClose }) => {
           />
         </div>
         {error ? (
-          <div>{error}</div>
+          <div className={styles.errorMessage}>{error}</div>
         ) : message ? (
-          <div>{message}</div>
+          <div className={styles.successMessage}>{message}</div>
         ) : (
-          <>&nbsp;</>
+          // <>&nbsp;</>
+          <div className={styles.errorMessage}>blank space</div>
         )}
         <button className={styles.modalSubmit} onClick={handleSubmit}>
-          <span className={styles.modalBtnLabel}>
-            Submit
-          </span>
+          <span className={styles.modalBtnLabel}>Submit</span>
         </button>
       </div>
     </div>
