@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import styles from "./HomePage.module.css"
-import LoginModal from "../components/LoginModal";
-import RegisterModal from "../components/RegisterModal";
+import LoginModal from "../modals/LoginModal";
+import RegisterModal from "../modals/RegisterModal";
 
 const HomePage = () => {
   const [showLogin, setShowLogin] = useState(false);

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import HomePage from "./pages/HomePage";
 import { Routes, Route, useLocation } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import CafePage from "./pages/CafePage";
 import KitchenPage from "./pages/KitchenPage";
 import OrdersPage from "./pages/OrdersPage";
@@ -9,18 +10,22 @@ import NavBar from "./components/NavBar";
 import Banner from "./components/Banner";
 import { GameContext } from "./context/GameContext";
 
+const queryClient = new QueryClient();
+
 const App = () => {
   const location = useLocation(); //gets current pathname
   // console.log(location);
   const hideNav = location.pathname === "/";
   const [heartCount, setHeartCount] = useState(0);
   const [coinCount, setCoinCount] = useState(0);
-  const [username, setUsername] = useState("");
+  const [username, setUsername] = useState("Guest");
+   const [isFed, setIsFed] = useState(false);
 
   return (
     <>
       <div className="appCtn">
-        <GameContext.Provider value={{ coinCount, setCoinCount, heartCount, setHeartCount, username, setUsername }}>
+        <QueryClientProvider client={queryClient}>
+        <GameContext.Provider value={{ coinCount, setCoinCount, heartCount, setHeartCount, username, setUsername, isFed, setIsFed }}>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/cafe" element={<CafePage />} />
@@ -37,6 +42,7 @@ const App = () => {
       )}
       {/* dont show on HomePage only */}
       </GameContext.Provider>
+      </QueryClientProvider>
       </div>
     </>
     

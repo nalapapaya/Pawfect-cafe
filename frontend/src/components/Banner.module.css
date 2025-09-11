@@ -25,8 +25,9 @@
   position: relative;
   height: 4rem;
   max-width: 30rem;
+  min-width: 10rem;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
 }
 

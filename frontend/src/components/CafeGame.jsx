@@ -3,18 +3,7 @@ import styles from "./CafeGame.module.css";
 import { useGame } from "../context/GameContext";
 
 const CafeGame = () => {
-  const { coinCount, setCoinCount, heartCount, setHeartCount } = useGame();
-  const [isFed, setIsFed] = useState(false);
-
-  const handleFeed = () => {
-    setIsFed(true);
-    setHeartCount((prev) => prev + 10);
-    setCoinCount((prev) => prev + 50);
-
-    setTimeout(() => { //to reset after 2s
-    setIsFed(false);
-  }, 2000);
-  };
+  const { setCoinCount, setHeartCount, isFed, setIsFed } = useGame();
 
   const handleSkip = () => {
     setIsFed(false);
@@ -60,9 +49,6 @@ const CafeGame = () => {
             </>
           )}
         </div>
-        <button onClick={handleFeed} className={styles.feedBtn}>
-          feed
-        </button>
         <button onClick={handleSkip} className={styles.skipBtn}>
           <span className={styles.skipText}>Skip</span>
         </button>

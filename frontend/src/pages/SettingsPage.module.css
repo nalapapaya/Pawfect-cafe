@@ -1,0 +1,56 @@
+.settingsCtn {
+  background-image: url("../assets/gamePlay/lockerRoom.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: bottom -50px center;
+  width: 100%;
+  min-height: 100svh;
+  overflow: hidden;
+  opacity: 0.8;
+}
+
+.setContentCtn{
+    z-index: 9999;
+    background-color: red;
+    width: 80%;
+    min-height: 68%;
+    position: fixed;
+    top: 13%;
+    left: 10%;
+}
+
+.tabContainer {
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  padding: 1rem;
+  background: white;
+  max-width: 100%;
+  height: 32rem;
+}
+
+.tabButtons {
+  display: flex;
+  border-bottom: 2px solid #ccc;
+  margin-bottom: 1rem;
+}
+
+.tab {
+  background: none;
+  border: none;
+  padding: 0.5rem 1rem;
+  font-weight: bold;
+  border-bottom: 2px solid transparent;
+}
+
+.tab.active {
+  border-bottom: 2px solid blue;
+  color: blue;
+}
+
+.tabContent {
+  display: none;
+}
+
+.tabContent.active {
+  display: block;
+}
