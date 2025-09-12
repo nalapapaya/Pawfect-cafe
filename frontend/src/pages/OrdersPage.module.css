@@ -1,0 +1,62 @@
+.ordersPageCtn {
+  background-image: url("./src/assets/gamePlay/cafeBack.png");
+  background-size: cover;
+  background-position: center 60%;
+  background-repeat: no-repeat;
+  width: 100%;
+  min-height: 100svh;
+  overflow: hidden;
+  opacity: 0.8;
+}
+
+.ordersCtn {
+  width: 90%;
+  height: 35rem;
+  position: fixed;
+  top: 12%;
+  left: 5%;
+  z-index: 999;
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+}
+
+.vendorListCtn,
+.shoppingCartCtn {
+  width: 50rem;
+  border: 3px solid #9a5e1e;
+  background: #f0b352;
+  border-radius: 36px;
+  padding: 20px 30px;
+  position: relative;
+  box-shadow: 0 4px 0 0 #d99634, 0 6px 0 2px rgba(0, 0, 0, 0.08);
+  transition: transform 0.06s ease, box-shadow 0.06s ease, filter 0.06s ease;
+  z-index: 0;
+}
+
+.vendorListCtn::before,
+.shoppingCartCtn::before {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  background: #bad2db;
+  border: 3px solid #9a5e1e;
+  border-radius: 26px;
+  box-shadow: inset 0 -8px 0 0 #9aafb7;
+  z-index: -1;
+}
+
+.vendorListTitle, .shoppingCartTitle {
+  position: relative;
+  z-index: 1;
+  font: 800 30px/1.05 "Baloo 2", "Fredoka", system-ui, sans-serif;
+  letter-spacing: 0.5px;
+  color: #ffe7ca;
+  text-shadow: 0 3px 0 #9a5e1e, 0 -3px 0 #9a5e1e, 3px 0 0 #9a5e1e,
+    -3px 0 0 #9a5e1e, 2px 2px 0 #9a5e1e, -2px 2px 0 #9a5e1e, 2px -2px 0 #9a5e1e,
+    -2px -2px 0 #9a5e1e;
+}
+
+.shoppingCartCtn {
+  width: 35rem;
+}

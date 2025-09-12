@@ -2,6 +2,7 @@ import { useState } from "react";
 import styles from "./SettingsPage.module.css";
 import { useGame } from "../context/GameContext";
 import InventoryList from "../components/InventoryList";
+import Profile from "../components/Profile";
 
 export default function SettingsTabs() {
   const [activeTab, setActiveTab] = useState("profile");
@@ -33,9 +34,7 @@ export default function SettingsTabs() {
           </div>
 
           <div className={`${styles.tabContent} ${activeTab === "profile" ? styles.active : ""}`}>
-            <div>Username: {username}</div>
-            <div>Joined since: </div>
-            <div></div>
+            <Profile/>
           </div>
           <div className={`${styles.tabContent} ${activeTab === "achievements" ? styles.active : ""}`}>
             <p>Content 2</p>

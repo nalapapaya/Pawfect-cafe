@@ -27,9 +27,13 @@ const KitchenPage = () => {
   const filledCount = filledSlots.length; //count slots that are not = null
   const canCombine = filledCount >= 2; //only can combine for 2 or more ing
 
-  useEffect(() => {
-    console.log("Current slots:", ingredients);
-  }, [ingredients]);
+//   useEffect(() => {
+//     console.log("Current slots:", ingredients);
+//   }, [ingredients]);
+
+const handleCombine = () => {
+    setIngredients([null, null, null]);
+}
 
   return (
     <div className={styles.kitchenPageCtn}>
@@ -46,7 +50,7 @@ const KitchenPage = () => {
               </div>
             ))}
           </div>
-          <button disabled={!canCombine} className={styles.combineBtn}>
+          <button disabled={!canCombine} className={styles.combineBtn} onClick={handleCombine}>
             <span className={styles.combineText}>Combine</span>
           </button>
         </div>
