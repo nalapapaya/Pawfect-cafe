@@ -46,6 +46,7 @@ def login():
     conn, cursor = get_cursor()
     cursor.execute('SELECT * FROM auth WHERE username=%s', (username,))
     results = cursor.fetchone() #findOne()
+
     release_connection(conn)
 
     if not results:
@@ -60,8 +61,7 @@ def login():
     access_token = create_access_token(results['username'], additional_claims=claims)  # jwt identity = username
     refresh_token = create_refresh_token(results['username'], additional_claims=claims)
 
-    return jsonify(success=True, username=results['username'], access=access_token, refresh=refresh_token), 200
-
+    return jsonify(success=True, username=results['username'], joined_since=results['joined_since'], access=access_token, refresh=refresh_token), 200
 @auth.route('/', methods=['GET'])
 @jwt_required()
 def get_all_user():
@@ -79,7 +79,7 @@ def get_all_user():
     # if role != 1:  # 1 = admin
     #     return jsonify({"error": "Unauthorized"}), 403
 
-    cur.execute("SELECT uuid, username, role_id FROM auth;")
+    cur.execute("SELECT * FROM auth;")
     users = cur.fetchall() #find()
     release_connection(conn)
 

@@ -7,7 +7,7 @@ import useFetch from "../hooks/useFetch";
 const LoginModal = ({ onClose }) => {
   const fetchData = useFetch();
   const navigate = useNavigate();
-  const { setUsername } = useGame();
+  const { setUsername, setJoinedSince } = useGame();
   const [error, setError] = useState("");
   const [usernameInput, setUsernameInput] = useState("");
   const [password, setPassword] = useState("");
@@ -30,8 +30,10 @@ const LoginModal = ({ onClose }) => {
         localStorage.setItem("refresh_token", res.refresh);
         localStorage.setItem("username", res.username);
         setUsername(res.username);
+        setJoinedSince(res.joined_since);
         navigate("/cafe");
         onClose();
+        console.log(res.data)
       } else {
         setError(res.msg || "Login failed");
       }
