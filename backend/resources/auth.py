@@ -1,8 +1,8 @@
 import bcrypt
 
-from flask import request, jsonify, Blueprint
-from db.db_pool import get_cursor, release_connection
-from flask_jwt_extended import create_access_token, create_refresh_token, jwt_required, get_jwt_identity, get_jwt
+from flask import request, jsonify, Blueprint #Schema, req, res
+from db.db_pool import get_cursor, release_connection #connectDB
+from flask_jwt_extended import create_access_token, create_refresh_token, jwt_required, get_jwt_identity, get_jwt #for authentication
 
 auth = Blueprint('auth', __name__)
 

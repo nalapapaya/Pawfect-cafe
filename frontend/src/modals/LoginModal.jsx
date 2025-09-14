@@ -7,7 +7,14 @@ import useFetch from "../hooks/useFetch";
 const LoginModal = ({ onClose }) => {
   const fetchData = useFetch();
   const navigate = useNavigate();
-  const { setUsername, setJoinedSince } = useGame();
+  const {
+    setUsername,
+    setJoinedSince,
+    setHeartCount,
+    setCoinCount,
+    setTotalHeartsEarned,
+    setTotalCoinsEarned,
+  } = useGame();
   const [error, setError] = useState("");
   const [usernameInput, setUsernameInput] = useState("");
   const [password, setPassword] = useState("");
@@ -31,9 +38,18 @@ const LoginModal = ({ onClose }) => {
         localStorage.setItem("username", res.username);
         setUsername(res.username);
         setJoinedSince(res.joined_since);
+        // console.log(res.data);
+
+        //fetch score after acquiring token
+        const userScore = await fetchData("/api/score", "GET", null, res.access);
+        if (userScore) {
+          setHeartCount(userScore.heart_score);
+          setCoinCount(userScore.coin_score);
+          setTotalHeartsEarned(userScore.total_hearts_earned);
+          setTotalCoinsEarned(userScore.total_coins_earned);
+        }
         navigate("/cafe");
         onClose();
-        console.log(res.data)
       } else {
         setError(res.msg || "Login failed");
       }

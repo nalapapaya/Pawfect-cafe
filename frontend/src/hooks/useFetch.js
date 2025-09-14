@@ -1,14 +1,20 @@
 const useFetch = () => {
   try {
     const fetchData = async (endpoint, method, body, token) => {
-      const res = await fetch(import.meta.env.VITE_SERVER + endpoint, {
+      const ifBodyNeeded = {
         method,
         headers: {
           "Content-Type": "application/json",
           authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(body),
-      });
+      };
+
+      // only attach body if not GET
+      if (body && method !== "GET") {
+        ifBodyNeeded.body = JSON.stringify(body);
+      }
+
+      const res = await fetch(import.meta.env.VITE_SERVER + endpoint, options);
       const data = await res.json();
 
       if (!res.ok) {
@@ -17,7 +23,7 @@ const useFetch = () => {
           return { ok: false, msg: data.errors[0].msg };
         } else if (data.status === "error") {
           //server returns {status: "error", msg: ""}
-          console.error("data.msg:", data.msg); //log server msg
+          console.error("data.msg:", data.msg);
           return { ok: false, msg: data.msg };
         } else {
           console.error("final", data); //show raw parsed paylod

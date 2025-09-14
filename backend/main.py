@@ -5,6 +5,7 @@ from flask import Flask, jsonify
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager
 from resources.auth import auth
+from resources.game import game
 
 # from db.db_pool import get_cursor, release_connection
 
@@ -23,8 +24,9 @@ def my_jwt_error_callback(*args): #function called when error occurs
     return jsonify(msg='access denied'), 401 #send a generic error msg
 
 # app.register_blueprint(tools)
-# app.register_blueprint(tools, url_prefix='/api')
+
 app.register_blueprint(auth, url_prefix='/auth')
+app.register_blueprint(game, url_prefix='/api')
 
 if __name__ == '__main__': #name of file in system (called by python)
     app.run(port=5001, debug=os.getenv('DEBUG', False))

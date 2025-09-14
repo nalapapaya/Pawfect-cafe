@@ -8,6 +8,8 @@ export const GameProvider = ({ children }) => {
   //children = everything in here gets passed
   const [coinCount, setCoinCount] = useState(0);
   const [heartCount, setHeartCount] = useState(0);
+  const [totalHeartsEarned, setTotalHeartsEarned] = useState(0);
+  const [totalCoinsEarned, setTotalCoinsEarned] = useState(0);
   const [isFed, setIsFed] = useState(false);
 
   // use username from localstorage
@@ -20,8 +22,8 @@ export const GameProvider = ({ children }) => {
   const [refreshToken, setRefreshToken] = useState(
     () => localStorage.getItem("refresh_token") || ""
   );
-  const [joinedSince, setJoinedSince] = useState("")
-  console.log("joinedSince in GameContext:", joinedSince);
+  const [joinedSince, setJoinedSince] = useState("");
+//   console.log("joinedSince in GameContext:", joinedSince);
 
   useEffect(() => {
     if (username) {
@@ -64,6 +66,10 @@ export const GameProvider = ({ children }) => {
         setRefreshToken,
         joinedSince,
         setJoinedSince,
+        totalHeartsEarned,
+        setTotalHeartsEarned,
+        totalCoinsEarned,
+        setTotalCoinsEarned,
       }}
     >
       {children}
