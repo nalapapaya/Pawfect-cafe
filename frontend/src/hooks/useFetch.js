@@ -5,7 +5,7 @@ const useFetch = () => {
         method,
         headers: {
           "Content-Type": "application/json",
-          authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
       };
 
@@ -14,7 +14,7 @@ const useFetch = () => {
         ifBodyNeeded.body = JSON.stringify(body);
       }
 
-      const res = await fetch(import.meta.env.VITE_SERVER + endpoint, options);
+      const res = await fetch(import.meta.env.VITE_SERVER + endpoint, ifBodyNeeded);
       const data = await res.json();
 
       if (!res.ok) {

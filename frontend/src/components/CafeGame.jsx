@@ -1,13 +1,27 @@
 import React, { useState, useContext } from "react";
 import styles from "./CafeGame.module.css";
 import { useGame } from "../context/GameContext";
+import useFetch from "../hooks/useFetch";
 
 const CafeGame = () => {
-  const { setCoinCount, setHeartCount, isFed, setIsFed } = useGame();
+  const { setHeartCount, isFed, setIsFed, accessToken } = useGame();
+  const fetchData = useFetch();
 
-  const handleSkip = () => {
+  const handleSkip = async () => {
     setIsFed(false);
+
+    //update score on frontend immediately
     setHeartCount((prev) => prev - 2);
+
+    //sync with backend
+    await fetchData(
+      "/api/score",
+      "POST",
+      {
+        heart_score: -2,
+      },
+      accessToken
+    );
   };
 
   return (

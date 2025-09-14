@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
+import useFetch from "../hooks/useFetch";
 
 export const GameContext = createContext();
 
@@ -11,6 +12,7 @@ export const GameProvider = ({ children }) => {
   const [totalHeartsEarned, setTotalHeartsEarned] = useState(0);
   const [totalCoinsEarned, setTotalCoinsEarned] = useState(0);
   const [isFed, setIsFed] = useState(false);
+  const fetchData = useFetch();
 
   // use username from localstorage
   const [username, setUsername] = useState(
@@ -22,8 +24,10 @@ export const GameProvider = ({ children }) => {
   const [refreshToken, setRefreshToken] = useState(
     () => localStorage.getItem("refresh_token") || ""
   );
-  const [joinedSince, setJoinedSince] = useState("");
-//   console.log("joinedSince in GameContext:", joinedSince);
+  const [joinedSince, setJoinedSince] = useState(
+    () => localStorage.getItem("joinedSince") || ""
+  );
+  //   console.log("joinedSince in GameContext:", joinedSince);
 
   useEffect(() => {
     if (username) {
@@ -48,6 +52,32 @@ export const GameProvider = ({ children }) => {
       localStorage.removeItem("refresh_token");
     }
   }, [refreshToken]);
+
+  useEffect(() => {
+    if (joinedSince) {
+      localStorage.setItem("joinedSince", joinedSince); //set username in localstorage
+    } else {
+      localStorage.removeItem("joinedSince"); //clear after logging out
+    }
+  }, [joinedSince]);
+
+  useEffect(() => {
+    const loadScores = async () => {
+      if (!accessToken) return; // not logged in yet
+      try {
+        const res = await fetchData("/api/score", "GET", null, accessToken);
+        if (res) {
+          setHeartCount(res.heart_score);
+          setCoinCount(res.coin_score);
+          setTotalHeartsEarned(res.total_hearts_earned);
+          setTotalCoinsEarned(res.total_coins_earned);
+        }
+      } catch (err) {
+        console.error("Failed to load scores:", err);
+      }
+    };
+    loadScores();
+  }, [accessToken]);
 
   return (
     <GameContext.Provider
