@@ -89,8 +89,7 @@ def get_all_user():
 @jwt_required(refresh=True)
 def refresh():
     identity = get_jwt_identity() #the identity set earlier
-    claims = get_jwt()
+    claims = {"role_id": get_jwt().get("role_id")} #easier to permission check (no need call DB)
 
     access_token = create_access_token(identity, additional_claims=claims)
-
     return jsonify(access=access_token), 200
