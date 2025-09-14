@@ -2,37 +2,41 @@ import React, { useState } from "react";
 import styles from "./Modal.module.css";
 import { useNavigate } from "react-router-dom";
 import { useGame } from "../context/GameContext";
+import useFetch from "../hooks/useFetch";
 
 const LoginModal = ({ onClose }) => {
+  const fetchData = useFetch();
   const navigate = useNavigate();
   const { setUsername } = useGame();
   const [error, setError] = useState("");
-  const [username, setUsernameInput] = useState("");
+  const [usernameInput, setUsernameInput] = useState("");
   const [password, setPassword] = useState("");
 
-  const fakeLogin = ({ username, password }) => {
-    if (username === "Maddy" && password === "1234") {
-      return { success: true, username };
-    } else {
-      throw new Error("Invalid credentials");
-    }
-  };
-
-  const handleSubmit = () => {
-    if (!username || !password) {
-      setError("There is an empty fill");
+  const handleLogin = async () => {
+    if (!usernameInput || !password) {
+      setError("Username and password are required");
       return;
     }
+
     try {
       setError("");
-      const res = fakeLogin({ username, password });
+      const res = await fetchData("/auth/login", "POST", {
+        username: usernameInput,
+        password,
+      });
+
       if (res.success) {
+        localStorage.setItem("access_token", res.access);
+        localStorage.setItem("refresh_token", res.refresh);
+        localStorage.setItem("username", res.username);
         setUsername(res.username);
         navigate("/cafe");
         onClose();
+      } else {
+        setError(res.msg || "Login failed");
       }
     } catch (e) {
-      setError(e.message);
+      setError(e.message || "Network error");
     }
   };
 
@@ -50,7 +54,7 @@ const LoginModal = ({ onClose }) => {
           <input
             type="text"
             className={styles.modalInput}
-            value={username}
+            value={usernameInput}
             onChange={(e) => setUsernameInput(e.target.value)}
           />
         </div>
@@ -68,7 +72,7 @@ const LoginModal = ({ onClose }) => {
         ) : (
           <>&nbsp;</>
         )}
-        <button className={styles.modalSubmit} onClick={handleSubmit}>
+        <button className={styles.modalSubmit} onClick={handleLogin}>
           <span className={styles.modalBtnLabel}>Submit</span>
         </button>
       </div>

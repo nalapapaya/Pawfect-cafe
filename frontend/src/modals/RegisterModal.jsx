@@ -9,7 +9,7 @@ const RegisterModal = ({ onClose }) => {
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
 
-  const handleSubmit = async () => {
+  const handleRegister = async () => {
     if (!username || !password) {
       setError("Username and password are required");
       return;
@@ -20,15 +20,17 @@ const RegisterModal = ({ onClose }) => {
     }
     setError("");
 
-    const res = await fetchData("/", "PUT", {
+    const res = await fetchData("/auth/register", "PUT", {
       username,
       password,
     });
 
     if (res.ok) {
-      setMessage("Registration successful! Please log in.");
+      setMessage(res.msg || "Registration successful! Please log in.");
+      setUsername("");
+      setPassword("");
     } else {
-      setError(res.message);
+      setError(res.msg || "Error registering, please try again later.");
     }
   };
 
@@ -64,10 +66,9 @@ const RegisterModal = ({ onClose }) => {
         ) : message ? (
           <div className={styles.successMessage}>{message}</div>
         ) : (
-          // <>&nbsp;</>
-          <div className={styles.errorMessage}>blank space</div>
+          <>&nbsp;</>
         )}
-        <button className={styles.modalSubmit} onClick={handleSubmit}>
+        <button className={styles.modalSubmit} onClick={handleRegister}>
           <span className={styles.modalBtnLabel}>Submit</span>
         </button>
       </div>

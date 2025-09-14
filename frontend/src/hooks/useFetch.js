@@ -14,14 +14,14 @@ const useFetch = () => {
       if (!res.ok) {
         if (data?.errors) {
           console.error("data.errors", data.errors[0].msg); //1st index of errors
-          throw data.errors[0].msg; //throw to caller
+          return { ok: false, msg: data.errors[0].msg };
         } else if (data.status === "error") {
           //server returns {status: "error", msg: ""}
           console.error("data.msg:", data.msg); //log server msg
-          throw data.msg; //throw to UI
+          return { ok: false, msg: data.msg };
         } else {
           console.error("final", data); //show raw parsed paylod
-          throw "An unknown error has ocurred, please try again later.";
+          return { ok: false, msg: "An unknown error has occurred, please try again later." };
         }
       }
       return data;

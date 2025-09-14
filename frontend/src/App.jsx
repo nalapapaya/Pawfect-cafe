@@ -8,7 +8,7 @@ import OrdersPage from "./pages/OrdersPage";
 import SettingsPage from "./pages/SettingsPage";
 import NavBar from "./components/NavBar";
 import Banner from "./components/Banner";
-import { GameContext } from "./context/GameContext";
+import { GameProvider } from "./context/GameContext";
 
 const queryClient = new QueryClient();
 
@@ -16,16 +16,13 @@ const App = () => {
   const location = useLocation(); //gets current pathname
   // console.log(location);
   const hideNav = location.pathname === "/";
-  const [heartCount, setHeartCount] = useState(0);
-  const [coinCount, setCoinCount] = useState(0);
-  const [username, setUsername] = useState("Guest");
-   const [isFed, setIsFed] = useState(false);
+
 
   return (
     <>
       <div className="appCtn">
         <QueryClientProvider client={queryClient}>
-        <GameContext.Provider value={{ coinCount, setCoinCount, heartCount, setHeartCount, username, setUsername, isFed, setIsFed }}>
+        <GameProvider>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/cafe" element={<CafePage />} />
@@ -41,7 +38,7 @@ const App = () => {
         </>
       )}
       {/* dont show on HomePage only */}
-      </GameContext.Provider>
+      </GameProvider>
       </QueryClientProvider>
       </div>
     </>
