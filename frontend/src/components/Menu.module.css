@@ -46,13 +46,6 @@
 .menuContent {
   z-index: 999;
   margin: 2rem;
-}
-
-.menuContent ul {
-  list-style: none; /* remove default bullets */
-  border: 5px solid red;
-}
-
-.menuContent li {
-  margin: 0;
+  height: calc(100% - 4rem); /* content only sits inside - margins */
+  overflow: hidden;
 }

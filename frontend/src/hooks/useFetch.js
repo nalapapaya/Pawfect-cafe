@@ -1,13 +1,17 @@
 const useFetch = () => {
   try {
-    const fetchData = async (endpoint, method, body, token) => {
+    const fetchData = async (endpoint, method, body, token = null) => {
       const ifBodyNeeded = {
         method,
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
         },
       };
+
+      // add header if token exist
+      if (token) {
+        ifBodyNeeded.headers.Authorization = `Bearer ${token}`;
+      }
 
       // only attach body if not GET
       if (body && method !== "GET") {
@@ -19,39 +23,6 @@ const useFetch = () => {
         ifBodyNeeded
       );
 
-      //cant use (circulating loop) - needed from gamecontext
-      // expired token (401)
-      // if (res.status === 401 && refreshToken) {
-      //   const refreshRes = await fetch(
-      //     import.meta.env.VITE_SERVER + "/auth/refresh",
-      //     {
-      //       method: "GET",
-      //       headers: {
-      //         "Content-Type": "application/json",
-      //         Authorization: `Bearer ${refreshToken}`,
-      //       },
-      //     }
-      //   );
-
-      //   if (refreshRes.ok) {
-      //     const refreshData = await refreshRes.json();
-      //     setAccessToken(refreshData.access); // update localStorage
-
-      //     // retry with new access token
-      //     ifBodyNeeded.headers.Authorization = `Bearer ${refreshData.access}`;
-      //     res = await fetch(
-      //       import.meta.env.VITE_SERVER + endpoint,
-      //       ifBodyNeeded
-      //     );
-      //   } else {
-      //     console.error("Refresh failed.");
-      //     setAccessToken("");
-      //     setRefreshToken("");
-      //     setUsername("");
-      //     return { ok: false, msg: "Session expired, please log in again." };
-      //   }
-      // }
-
       const data = await res.json();
 
       if (!res.ok) {
@@ -59,7 +30,6 @@ const useFetch = () => {
           console.error("data.errors", data.errors[0].msg); //1st index of errors
           return { ok: false, msg: data.errors[0].msg };
         } else if (data.status === "error") {
-          //server returns {status: "error", msg: ""}
           console.error("data.msg:", data.msg);
           return { ok: false, msg: data.msg };
         } else {

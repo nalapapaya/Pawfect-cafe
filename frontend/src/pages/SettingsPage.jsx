@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styles from "./SettingsPage.module.css";
 import { useGame } from "../context/GameContext";
-import InventoryList from "../components/InventoryList";
+import MenuList from "../components/MenuList";
 import Profile from "../components/Profile";
 
 export default function SettingsTabs() {
@@ -40,7 +40,7 @@ export default function SettingsTabs() {
             <p>Content 2</p>
           </div>
           <div className={`${styles.tabContent} ${activeTab === "inventory" ? styles.active : ""}`}>
-            <InventoryList/>
+            <MenuList/>
           </div>
         </div>
       </div>

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styles from "./Menu.module.css";
 import { useGame } from "../context/GameContext";
 import useFetch from "../hooks/useFetch";
-import InventoryList from "./InventoryList";
+import MenuList from "./MenuList";
 
 const Menu = () => {
   const { setCoinCount, setHeartCount, setIsFed, accessToken } = useGame();
@@ -20,7 +20,7 @@ const Menu = () => {
       </div>
 
       <div className={styles.menuContent}>
-       <InventoryList/>
+       <MenuList/>
       </div>
     </div>
   );

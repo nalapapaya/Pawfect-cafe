@@ -1,0 +1,43 @@
+.invListCtn {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.invItemsCtn {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  max-height: 30rem; /* fit in menu ctn */
+  width: 26rem;
+}
+
+.pageBtnCtn {
+  display: flex;
+  justify-content: space-between;
+}
+
+.pageBtn {
+  cursor: pointer;
+  background: #f0b352;
+  border: 4px solid #9a5e1e;
+  border-radius: 36px;
+  height: 3rem;
+  width: 4rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pageBtn:hover {
+  background: #f7c46c;
+}
+
+.pageBtn:disabled {
+  background: #ddd;
+  border-color: #aaa;
+  color: #666;
+  cursor: not-allowed;
+}

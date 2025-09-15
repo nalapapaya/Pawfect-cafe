@@ -14,6 +14,7 @@ const LoginModal = ({ onClose }) => {
     setCoinCount,
     setTotalHeartsEarned,
     setTotalCoinsEarned,
+    setAccessToken,
   } = useGame();
   const [error, setError] = useState("");
   const [usernameInput, setUsernameInput] = useState("");
@@ -36,6 +37,7 @@ const LoginModal = ({ onClose }) => {
         localStorage.setItem("access_token", res.access);
         localStorage.setItem("refresh_token", res.refresh);
         localStorage.setItem("username", res.username);
+        setAccessToken(res.access);
         setUsername(res.username);
         setJoinedSince(res.joined_since);
         // console.log(res.data);

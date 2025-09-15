@@ -51,8 +51,8 @@
   text-shadow: 0 -3px 0 #9a5e1e, 3px 0 0 #9a5e1e, -3px 0 0 #9a5e1e,
     2px 2px 0 #9a5e1e, -2px 2px 0 #9a5e1e, 2px -2px 0 #9a5e1e,
     -2px -2px 0 #9a5e1e;
-  margin-right: .5rem;
-  margin-top: .2rem;
+  margin-right: 0.5rem;
+  margin-top: 0.2rem;
   padding: 0 0.5rem 0 0.5rem;
 }
 
@@ -89,15 +89,15 @@
   box-shadow: inset 0 -8px 0 0 #f1f0de;
 }
 
-.usernameLabel{
-    position: relative;
-    z-index: 1;
-    font: 800 2rem/1.05 "Baloo 2", "Fredoka", system-ui, sans-serif;
-    letter-spacing: 0.5px;
-    color: #ffe7ca;
-    text-shadow: 0 -3px 0 #9a5e1e, 3px 0 0 #9a5e1e, -3px 0 0 #9a5e1e,
-        2px 2px 0 #9a5e1e, -2px 2px 0 #9a5e1e, 2px -2px 0 #9a5e1e,
-        -2px -2px 0 #9a5e1e;
-    padding: 1rem;
-
+.usernameLabel {
+  position: relative;
+  z-index: 1;
+  font: 800 2rem/1.05 "Baloo 2", "Fredoka", system-ui, sans-serif;
+  letter-spacing: 0.5px;
+  color: #ffe7ca;
+  text-shadow: 0 -3px 0 #9a5e1e, 3px 0 0 #9a5e1e, -3px 0 0 #9a5e1e,
+    2px 2px 0 #9a5e1e, -2px 2px 0 #9a5e1e, 2px -2px 0 #9a5e1e,
+    -2px -2px 0 #9a5e1e;
+  padding: 1rem;
+  text-transform: capitalize;
 }
