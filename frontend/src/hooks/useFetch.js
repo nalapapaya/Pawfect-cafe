@@ -14,42 +14,43 @@ const useFetch = () => {
         ifBodyNeeded.body = JSON.stringify(body);
       }
 
-      let res = await fetch(
+      const res = await fetch(
         import.meta.env.VITE_SERVER + endpoint,
         ifBodyNeeded
       );
 
+      //cant use (circulating loop) - needed from gamecontext
       // expired token (401)
-      if (res.status === 401 && refreshToken) {
-        const refreshRes = await fetch(
-          import.meta.env.VITE_SERVER + "/auth/refresh",
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${refreshToken}`,
-            },
-          }
-        );
+      // if (res.status === 401 && refreshToken) {
+      //   const refreshRes = await fetch(
+      //     import.meta.env.VITE_SERVER + "/auth/refresh",
+      //     {
+      //       method: "GET",
+      //       headers: {
+      //         "Content-Type": "application/json",
+      //         Authorization: `Bearer ${refreshToken}`,
+      //       },
+      //     }
+      //   );
 
-        if (refreshRes.ok) {
-          const refreshData = await refreshRes.json();
-          setAccessToken(refreshData.access); // update localStorage
+      //   if (refreshRes.ok) {
+      //     const refreshData = await refreshRes.json();
+      //     setAccessToken(refreshData.access); // update localStorage
 
-          // retry with new access token
-          ifBodyNeeded.headers.Authorization = `Bearer ${refreshData.access}`;
-          res = await fetch(
-            import.meta.env.VITE_SERVER + endpoint,
-            ifBodyNeeded
-          );
-        } else {
-          console.error("Refresh failed.");
-          setAccessToken("");
-          setRefreshToken("");
-          setUsername("");
-          return { ok: false, msg: "Session expired, please log in again." };
-        }
-      }
+      //     // retry with new access token
+      //     ifBodyNeeded.headers.Authorization = `Bearer ${refreshData.access}`;
+      //     res = await fetch(
+      //       import.meta.env.VITE_SERVER + endpoint,
+      //       ifBodyNeeded
+      //     );
+      //   } else {
+      //     console.error("Refresh failed.");
+      //     setAccessToken("");
+      //     setRefreshToken("");
+      //     setUsername("");
+      //     return { ok: false, msg: "Session expired, please log in again." };
+      //   }
+      // }
 
       const data = await res.json();
 
