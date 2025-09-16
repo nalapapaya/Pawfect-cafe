@@ -1,6 +1,22 @@
+import { useGame } from "../context/GameContext";
+
 const useFetch = () => {
+  const {
+    refreshToken,
+    setAccessToken,
+    setRefreshToken,
+    setUsername,
+    setJoinedSince,
+  } = useGame();
+
   try {
-    const fetchData = async (endpoint, method, body, token = null) => {
+    const fetchData = async (
+      endpoint,
+      method,
+      body,
+      token = null,
+      retry = true
+    ) => {
       const ifBodyNeeded = {
         method,
         headers: {
@@ -23,7 +39,46 @@ const useFetch = () => {
         ifBodyNeeded
       );
 
-      const data = await res.json();
+      let data;
+      data = await res.json();
+
+      // try refresh if expire
+      if (res.status === 401 && retry && refreshToken) {
+        try {
+          const refreshRes = await fetch(
+            import.meta.env.VITE_SERVER + "/auth/refresh",
+            {
+              method: "GET",
+              headers: {
+                Authorization: `Bearer ${refreshToken}`,
+              },
+            }
+          );
+
+          const refreshData = await refreshRes.json();
+          if (!refreshRes.ok || !refreshData.access) {
+            // refresh failed = reset states
+            setAccessToken("");
+            setRefreshToken("");
+            setUsername("");
+            setJoinedSince("");
+            return { ok: false, msg: "Session expired, please log in again." };
+          }
+
+          //store new token
+          setAccessToken(refreshData.access);
+
+          // retry with new token
+          return fetchData(endpoint, method, body, refreshData.access, false); // try once only
+        } catch (e) {
+          console.error("Refresh failed:", e);
+          setAccessToken("");
+          setRefreshToken("");
+          setUsername("");
+          setJoinedSince("");
+          return { ok: false, msg: "Session expired, please log in again." };
+        }
+      }
 
       if (!res.ok) {
         // flask {status: "error", msg: ""}
@@ -38,7 +93,6 @@ const useFetch = () => {
           };
         }
       }
-
       return data;
     };
     return fetchData;

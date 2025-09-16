@@ -12,7 +12,7 @@ export const GameProvider = ({ children }) => {
   const [totalHeartsEarned, setTotalHeartsEarned] = useState(0);
   const [totalCoinsEarned, setTotalCoinsEarned] = useState(0);
   const [isFed, setIsFed] = useState(false);
-  const fetchData = useFetch();
+  // const fetchData = useFetch();
 
   // use username from localstorage
   const [username, setUsername] = useState(
@@ -61,23 +61,23 @@ export const GameProvider = ({ children }) => {
     }
   }, [joinedSince]);
 
-  useEffect(() => {
-    const loadScores = async () => {
-      if (!accessToken) return; // not logged in yet
-      try {
-        const res = await fetchData("/api/score", "GET", null, accessToken);
-        if (res) {
-          setHeartCount(res.heart_score);
-          setCoinCount(res.coin_score);
-          setTotalHeartsEarned(res.total_hearts_earned);
-          setTotalCoinsEarned(res.total_coins_earned);
-        }
-      } catch (err) {
-        console.error("Failed to load scores:", err);
-      }
-    };
-    loadScores();
-  }, [accessToken]);
+  // useEffect(() => {
+  //   const loadScores = async () => {
+  //     if (!accessToken) return; // not logged in yet
+  //     try {
+  //       const res = await fetchData("/api/score", "GET", null, accessToken);
+  //       if (res) {
+  //         setHeartCount(res.heart_score);
+  //         setCoinCount(res.coin_score);
+  //         setTotalHeartsEarned(res.total_hearts_earned);
+  //         setTotalCoinsEarned(res.total_coins_earned);
+  //       }
+  //     } catch (err) {
+  //       console.error("Failed to load scores:", err);
+  //     }
+  //   };
+  //   loadScores();
+  // }, [accessToken]);
 
   return (
     <GameContext.Provider

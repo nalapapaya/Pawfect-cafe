@@ -1,15 +1,40 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "./Banner.module.css";
 import { useNavigate } from "react-router-dom";
-import {useGame} from "../context/GameContext";
+import { useGame } from "../context/GameContext";
+import useFetch from "../hooks/useFetch";
 
 const Banner = () => {
   const nav = useNavigate();
-  const {coinCount, heartCount, username} = useGame();
+  const {
+    coinCount,
+    setCoinCount,
+    heartCount,
+    setHeartCount,
+    accessToken,
+    username,
+  } = useGame();
+  const fetchData = useFetch();
 
   const goToSettings = () => {
     nav("/settings");
   };
+
+  useEffect(() => {
+    const loadScores = async () => {
+      if (!accessToken) return;
+      try {
+        const res = await fetchData("/api/score", "GET", null, accessToken);
+        if (res) {
+          setHeartCount(res.heart_score);
+          setCoinCount(res.coin_score);
+        }
+      } catch (e) {
+        console.error("Failed to load scores:", e);
+      }
+    };
+    loadScores();
+  }, [accessToken]);
 
   return (
     <div className={styles.bannerCtn}>
