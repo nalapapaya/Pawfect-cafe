@@ -1,5 +1,5 @@
 const ingredientImages = import.meta.glob("../assets/foods/Ingredients/*", {
-  //glob = collect all files that matches this
+  //glob = collect all files that matches this - linux command
   eager: true, //load immediately
 });
 const menuImages = import.meta.glob("../assets/foods/Menu/*", { eager: true });
@@ -18,7 +18,7 @@ export const getImage = (filename, type) => {
     return ingredientImages[key]?.default || null; //have to take value out of default from glob
   }
 
-  if (type === "menu") {
+  else if (type === "menu") {
     // for combined food in menu
     key = `../assets/foods/Menu/${filename}`;
     return menuImages[key]?.default || null;

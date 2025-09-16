@@ -4,7 +4,7 @@ import { useGame } from "../context/GameContext";
 import useFetch from "../hooks/useFetch";
 import { getImage } from "../utils/getImage";
 
-const ItemsCard = ({ item, onDispose }) => {
+const ItemsCard = ({ item, onDispose, isMenu = false }) => {
   const { setIsFed, setHeartCount, setCoinCount, accessToken } = useGame();
   const fetchData = useFetch();
   const imageSrc = getImage(
@@ -31,7 +31,7 @@ const ItemsCard = ({ item, onDispose }) => {
         },
         accessToken
       );
-
+      
       if (scoreRes?.ok === false) {
         //safer if req fail
         console.error("Failed to update score:", scoreRes.msg);
@@ -59,7 +59,7 @@ const ItemsCard = ({ item, onDispose }) => {
   return (
     <div className={styles.inventoryCard}>
       <button
-        onClick={handleFeed}
+        onClick={isMenu ? handleFeed : undefined} //dont trigger if dont pass isMenu
         className={styles.feedBtn}
         disabled={item.qty === 0}
       >

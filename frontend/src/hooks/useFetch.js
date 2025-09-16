@@ -26,20 +26,19 @@ const useFetch = () => {
       const data = await res.json();
 
       if (!res.ok) {
-        if (data?.errors) {
-          console.error("data.errors", data.errors[0].msg); //1st index of errors
-          return { ok: false, msg: data.errors[0].msg };
-        } else if (data.status === "error") {
+        // flask {status: "error", msg: ""}
+        if (data?.status === "error" && data?.msg) {
           console.error("data.msg:", data.msg);
           return { ok: false, msg: data.msg };
         } else {
-          console.error("final", data); //show raw parsed paylod
+          console.error("Unexpected error payload:", data); // debug fallback
           return {
             ok: false,
             msg: "An unknown error has occurred, please try again later.",
           };
         }
       }
+
       return data;
     };
     return fetchData;

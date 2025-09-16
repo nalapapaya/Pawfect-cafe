@@ -116,6 +116,7 @@ const MenuList = () => {
                 qtyChange,
               })
             }
+            isMenu
           />
         ))}
       </div>
