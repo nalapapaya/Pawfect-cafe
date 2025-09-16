@@ -158,3 +158,91 @@ def update_inventory():
 
     finally:
         release_connection(conn)
+
+@manage.route('/inventory/combine', methods=['POST'])
+@jwt_required()
+def combine_food():
+    username = get_jwt_identity()
+    conn, cursor = get_cursor()
+    try:
+        # fetch user uuid
+        cursor.execute("SELECT uuid FROM auth WHERE username=%s;", (username,))
+        user = cursor.fetchone()
+        if not user:
+            return jsonify(status='error', msg='User not found'), 404
+        user_id = user['uuid']
+
+        # body = item_id, qty
+        data = request.get_json()
+        if not data:
+            return jsonify(status='error', msg='No ingredients provided'), 400
+
+        # deduct inventory
+        for entry in data:
+            item_id = entry.get("item_id")
+            qty_change = entry.get("qty", 0)
+
+            if not item_id or qty_change == 0:
+                continue
+
+            # fetch item name
+            cursor.execute("SELECT name FROM items WHERE id=%s;", (item_id,))
+            item = cursor.fetchone()
+            item_name = item['name'] if item else f"Item ID {item_id}"
+
+            # check inventory
+            cursor.execute(
+                "SELECT quantity FROM inventory WHERE user_id=%s AND item_id=%s;",
+                (user_id, item_id)
+            )
+            existing = cursor.fetchone()
+            if not existing or existing['quantity'] + qty_change < 0:
+                conn.rollback()
+                return jsonify(status="error", msg=f"Not enough {item_name}"), 400
+
+            # update quantity
+            cursor.execute(
+                "UPDATE inventory SET quantity=%s WHERE user_id=%s AND item_id=%s;",
+                (existing['quantity'] + qty_change, user_id, item_id)
+            )
+
+        # determine result (combined item)
+        # collect used item_ids
+        used_ids = sorted([e["item_id"] for e in data if e.get("qty", 0) < 0]) #get dict with qty -1 for deduction
+
+        cursor.execute("SELECT result_item_id, required_items FROM recipes;")
+        recipes = cursor.fetchall()
+
+        result_item_id = 25  # fallback = kibbles (id 25)
+        for recipe in recipes:
+            required_items = sorted(list(recipe['required_items'])) #convert list to value and arrange in ascending number
+            if used_ids == required_items:
+                result_item_id = recipe['result_item_id']
+                break
+
+        # add combined item to inv
+        cursor.execute(
+            "INSERT INTO inventory (user_id, item_id, quantity) "
+            "VALUES (%s, %s, 1) "
+            "ON CONFLICT (user_id, item_id) DO UPDATE SET quantity = inventory.quantity + 1;",
+            (user_id, result_item_id)
+        )
+
+        # fetch result item name
+        cursor.execute("SELECT name FROM items WHERE id=%s;", (result_item_id,))
+        result_item = cursor.fetchone()
+        item_name = result_item['name'] if result_item else f"Item {result_item_id}"
+
+        conn.commit()
+        return jsonify(
+            status="ok",
+            msg=f"Combined into {item_name}",
+            item_id=result_item_id,
+            item_name=item_name
+        ), 200
+
+    except Exception as e:
+        conn.rollback()
+        return jsonify(status="error", msg=str(e)), 500
+    finally:
+        release_connection(conn)

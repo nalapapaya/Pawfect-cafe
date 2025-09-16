@@ -1,71 +1,171 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styles from "./KitchenPage.module.css";
+import InventoryList from "../components/InventoryList";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useGame } from "../context/GameContext";
+import useFetch from "../hooks/useFetch";
+import { getImage } from "../utils/getImage";
 
 const KitchenPage = () => {
   const [ingredients, setIngredients] = useState([null, null, null]);
+  const [tempInventory, setTempInventory] = useState(null); // track frontend inv adjustment
+  const { accessToken } = useGame();
+  const fetchData = useFetch();
+  const queryClient = useQueryClient();
+  const filledSlots = ingredients.filter((slot) => slot !== null); // only slots with ingredient
+  const canCombine = filledSlots.length >= 2; //can only combine with 2 or more
+
+  // helper fn to commit mutation
+  const commitIngredients = async (slots) => {
+    const payload = slots.map((item) => ({
+      item_id: item.id,
+      qty: -1,
+    }));
+
+    const res = await fetchData(
+      "/manage/inventory",
+      "POST",
+      payload,
+      accessToken
+    );
+    if (res && res.ok === false) {
+      //safer to use data
+      throw new Error(res.msg || "Failed to update inventory");
+    }
+    return res;
+  };
+
+  // mutation
+  const mutation = useMutation({
+    mutationFn: commitIngredients,
+    onSuccess: () => {
+      queryClient.invalidateQueries(["inventoryRaw"]); //refresh raw inventory
+    },
+    onError: (e) => {
+      console.error("Inventory update failed:", e.message);
+    },
+  });
 
   const handleAddIngredient = (item) => {
-    const idx = ingredients.findIndex((slot) => slot === null); //find index of first null, no slot empty = -1
+    if (item.qty <= 0) return; // nothing to add if qty is 0
+
+    const idx = ingredients.findIndex((slot) => slot === null); // find first empty slot
     if (idx >= 0) {
-      const newSlots = [...ingredients]; //shallow copy
-      newSlots[idx] = item; //enter ing into first empty slot
-      setIngredients(newSlots);
-      //   console.log("Added ingredient:", item);
-      //   console.log("Updated slots:", newSlots);
+      //if empty slot exists
+      const newSlots = [...ingredients]; //copy current
+      newSlots[idx] = item; //enter item into first empty
+      setIngredients(newSlots); //update with new
+
+      // temporary frontend deduction
+      setTempInventory((prev) => ({
+        ...prev,
+        [item.id]: (prev?.[item.id] ?? item.qty) - 1, //if item, qty-1
+      }));
     }
   };
 
   const handleRemoveIng = (idx) => {
+    const removedItem = ingredients[idx]; //object in slot
+    if (!removedItem) return;
+
     const newSlots = [...ingredients]; //shallow copy
-    // console.log("Removed ingredient:", newSlots[idx]);
-    newSlots[idx] = null; //set back to empty
-    setIngredients(newSlots);
-    // console.log("Updated slots:", newSlots);
+    newSlots[idx] = null; //reset to null when clicked remove
+    setIngredients(newSlots); //update cleared slot
+
+    // temporary frontend restore
+    setTempInventory((prev) => ({
+      ...prev,
+      [removedItem.id]: (prev?.[removedItem.id] ?? removedItem.qty) + 1,
+    }));
   };
 
-  const filledSlots = ingredients.filter((slot) => slot !== null); //find slots not null
-  const filledCount = filledSlots.length; //count slots that are not = null
-  const canCombine = filledCount >= 2; //only can combine for 2 or more ing
+  const handleCombine = async () => {
+    if (filledSlots.length < 2) return; //must have 2 ing to combine
 
-//   useEffect(() => {
-//     console.log("Current slots:", ingredients);
-//   }, [ingredients]);
+    try {
+      const payload = filledSlots.map((item) => ({
+        item_id: item.id,
+        qty: -1, // always deduct
+      }));
 
-const handleCombine = () => {
-    setIngredients([null, null, null]);
-}
+      const res = await fetchData(
+        "/manage/inventory/combine",
+        "POST",
+        payload,
+        accessToken
+      );
+
+      if (res?.ok === false || res?.status === "error") {
+        console.log(`Combine failed: ${res.msg}`);
+        return;
+      }
+
+      alert(res.msg); //remove when got UI
+
+      // reset slots + temp inv
+      setIngredients([null, null, null]);
+      setTempInventory(null);
+
+      // refresh inv
+      queryClient.invalidateQueries(["inventoryRaw"]);
+    } catch (e) {
+      console.error("Combine error:", e);
+      // set msg
+    }
+  };
 
   return (
     <div className={styles.kitchenPageCtn}>
       <div className={styles.kitchenCtn}>
         <div className={styles.combineCtn}>
           <div className={styles.ingInputCtn}>
-            {ingredients.map((slot, idx) => (
-              <div
-                key={idx}
-                className={styles.ingInput}
-                onClick={() => slot && handleRemoveIng(idx)} //remove if slot not null
-              >
-                {slot ? slot.name : "add ingredient"}
-              </div>
-            ))}
+            {ingredients.map((slot, idx) => {
+              if (!slot) {
+                return (
+                  <div key={idx} className={styles.ingInput}>
+                    Empty
+                  </div>
+                );
+              }
+              const imageSrc = getImage(
+                slot.image_url,
+                slot.item_type === "raw" ? "ingredient" : "menu"
+              );
+              return (
+                <div
+                  key={idx}
+                  className={styles.ingInput}
+                  onClick={() => handleRemoveIng(idx)}
+                >
+                  {imageSrc ? (
+                    <img
+                      src={imageSrc}
+                      alt={slot.name}
+                      className={styles.itemImage}
+                    />
+                  ) : (
+                    <div className={styles.itemImage}>No Img</div>
+                  )}
+                </div>
+              );
+            })}
           </div>
-          <button disabled={!canCombine} className={styles.combineBtn} onClick={handleCombine}>
+          <button
+            disabled={!canCombine}
+            className={styles.combineBtn}
+            onClick={handleCombine}
+          >
             <span className={styles.combineText}>Combine</span>
           </button>
         </div>
+
         <div className={styles.invListCtn}>
           <div className={styles.invListTitle}>Inventory</div>
           <div className={styles.invList}>
-            <div onClick={() => handleAddIngredient({ name: "Tomato" })}>
-              Tomato
-            </div>
-            <div onClick={() => handleAddIngredient({ name: "Cheese" })}>
-              Cheese
-            </div>
-            <div onClick={() => handleAddIngredient({ name: "Bread" })}>
-              Bread
-            </div>
+            <InventoryList
+              onSelectItem={handleAddIngredient}
+              tempInventory={tempInventory} // pass temp adjustments
+            />
           </div>
         </div>
       </div>
