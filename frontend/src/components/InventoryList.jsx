@@ -90,7 +90,7 @@ const InventoryList = ({ onSelectItem, tempInventory }) => {
         data.slice(page * itemsPerPage, (page + 1) * itemsPerPage) //slice this data into different pages
       );
     }
-  }, [data, page, itemsPerPage]); //render everytime data or page or itemsPerPage changes
+  }, [page, itemsPerPage]); //render everytime page or itemsPerPage changes
 
   if (!accessToken) {
     //why put here

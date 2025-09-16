@@ -49,3 +49,18 @@
   filter: grayscale(80%) brightness(0.9);
   opacity: 0.6;
 }
+
+.ordersCard {
+  height: 6rem;
+  width: 6rem;
+  border-radius: 22px;
+}
+
+.ordersCard::before{
+  border-radius: 20px;
+  inset: 4px;
+}
+.ordersCard img {
+  width: 4rem;
+  height: 4rem;
+}

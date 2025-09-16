@@ -60,3 +60,64 @@
 .shoppingCartCtn {
   width: 35rem;
 }
+
+.vendorItems{
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 42rem;
+  gap: 1rem;
+  margin-top: .5rem;
+}
+
+.cartItem {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.cartImage {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.cartInfo {
+  flex-grow: 1;
+}
+
+.qtyControls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.qtyControls button {
+  width: 2rem;
+  height: 2rem;
+  border: none;
+  border-radius: 4px;
+  background: #f0b352;
+  font-weight: bold;
+}
+
+.qtyControls span {
+  min-width: 1.5rem;
+  text-align: center;
+}
+
+.purchaseSection {
+  margin-top: 1rem;
+  text-align: right;
+}
+
+.purchaseBtn {
+  padding: 0.5rem 1rem;
+  background: #f0b352;
+  border: 2px solid #9a5e1e;
+  border-radius: 6px;
+  font-weight: bold;
+}
+
+

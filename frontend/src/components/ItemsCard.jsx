@@ -4,7 +4,7 @@ import { useGame } from "../context/GameContext";
 import useFetch from "../hooks/useFetch";
 import { getImage } from "../utils/getImage";
 
-const ItemsCard = ({ item, onDispose, isMenu = false }) => {
+const ItemsCard = ({ item, onDispose, isMenu = false, isOrdersPage = false }) => {
   const { setIsFed, setHeartCount, setCoinCount, accessToken } = useGame();
   const fetchData = useFetch();
   const imageSrc = getImage(
@@ -60,7 +60,7 @@ const ItemsCard = ({ item, onDispose, isMenu = false }) => {
     <div className={styles.inventoryCard}>
       <button
         onClick={isMenu ? handleFeed : undefined} //dont trigger if dont pass isMenu
-        className={styles.feedBtn}
+        className={`${styles.feedBtn} ${isOrdersPage ? styles.ordersCard : ""}`}
         disabled={item.qty === 0}
       >
         {imageSrc ? (
@@ -75,7 +75,7 @@ const ItemsCard = ({ item, onDispose, isMenu = false }) => {
           <div className={styles.itemImage}>No Img</div>
         )}
         {/* Overlay quantity number */}
-        <span className={styles.itemQty}>{item.qty}</span>
+       {!isOrdersPage && <div className={styles.itemQty}>{item.qty}</div>}
       </button>
     </div>
   );
