@@ -65,11 +65,11 @@ export const GameProvider = ({ children }) => {
   }, [joinedSince]);
 
   useEffect(() => {
-    localStorage.setItem("totalHeartsEarned", totalHeartsEarned);
+    localStorage.setItem("totalHeartsEarned", totalHeartsEarned.toString());
   }, [totalHeartsEarned]);
 
   useEffect(() => {
-    localStorage.setItem("totalCoinsEarned", totalCoinsEarned);
+    localStorage.setItem("totalCoinsEarned", totalCoinsEarned.toString());
   }, [totalCoinsEarned]);
 
   return (

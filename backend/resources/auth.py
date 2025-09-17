@@ -29,8 +29,34 @@ def register():
     hash = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()) #hashes password, gensalt = 12 times
 
     #insert new user
-    cursor.execute('INSERT INTO auth (username, hash)'
-                   'VALUES (%s, %s)', ( username.lower(), hash.decode('utf-8'))) #save username in lowercase
+    cursor.execute(
+        'INSERT INTO auth (username, hash) VALUES (%s, %s) RETURNING uuid',
+        (username.lower(), hash.decode('utf-8'))
+    )
+
+    new_user = cursor.fetchone()  # get uuid of new user
+    user_id = new_user['uuid']
+
+    # give new user score
+    cursor.execute(
+        "INSERT INTO game_scores (user_id, coin_score, total_coins_earned) VALUES (%s, %s, %s)",
+        (user_id, 200, 200)  # start with 200 coins
+    )
+
+    # give 3 x3 raw ingredients
+    starter_raw_ids = [1, 2, 6]
+    for raw_id in starter_raw_ids:
+        cursor.execute(
+            "INSERT INTO inventory (user_id, item_id, quantity) VALUES (%s, %s, %s)",
+            (user_id, raw_id, 3)
+        )
+
+    # give 1 x combined food
+    starter_combined_id = 14
+    cursor.execute(
+        "INSERT INTO inventory (user_id, item_id, quantity) VALUES (%s, %s, %s)",
+        (user_id, starter_combined_id, 1)
+    )
 
     conn.commit() #save transaction in SQL
     release_connection(conn) #give db connection back to pool

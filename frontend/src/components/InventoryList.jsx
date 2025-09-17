@@ -71,6 +71,8 @@ const InventoryList = ({ onSelectItem, tempInventory }) => {
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ["inventoryRaw"],
     queryFn: fetchInventory,
+    refetchOnMount: true, //fetch on mount so works everywhere
+    refetchOnWindowFocus: false, //dont spam fetch
   });
 
   const mutation = useMutation({

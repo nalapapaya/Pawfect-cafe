@@ -8,7 +8,7 @@ import useFetch from "../hooks/useFetch";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 const CafePage = () => {
-  const { setHeartCount, setIsFed, accessToken, isFed, setCoinCount } =
+  const { setHeartCount, setIsFed, accessToken, isFed, setCoinCount, setTotalHeartsEarned, setTotalCoinsEarned } =
     useGame();
   //random image at spawn
   const [currentChar, setCurrentChar] = useState(getRandomPetImage());
@@ -54,6 +54,8 @@ const CafePage = () => {
       //update score on frontend immediately
       setHeartCount((prev) => prev + heartPoints);
       setCoinCount((prev) => prev + coinPoints);
+      setTotalHeartsEarned(prev => prev + heartPoints);
+setTotalCoinsEarned(prev => prev + coinPoints);
 
       //sync with backend scores
       const scoreRes = await fetchData(
