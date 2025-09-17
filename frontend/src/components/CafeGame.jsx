@@ -1,44 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import styles from "./CafeGame.module.css";
 import { useGame } from "../context/GameContext";
-import useFetch from "../hooks/useFetch";
-import { getRandomPetImage } from "../utils/getRandomImage";
-import { getRandomMenuImage } from "../utils/getImage";
+import { getImage } from "../utils/getImage";
 
-const CafeGame = () => {
-  const { setHeartCount, isFed, setIsFed, accessToken } = useGame();
-  const fetchData = useFetch();
-
-  //random image at spawn
-  const [currentChar, setCurrentChar] = useState(getRandomPetImage());
-  const [currentFood, setCurrentFood] = useState(getRandomMenuImage());
-
-  const handleSkip = async () => {
-    setIsFed(false);
-
-    //update score on frontend immediately
-    setHeartCount((prev) => prev - 2);
-
-    //sync with backend
-    await fetchData(
-      "/api/score",
-      "POST",
-      {
-        heart_score: -2,
-      },
-      accessToken
-    );
-    setCurrentChar(getRandomPetImage());
-    setCurrentFood(getRandomMenuImage());
-  };
-
-  useEffect(() => {
-    if (!isFed) {
-      //new character when animation is done
-      setCurrentChar(getRandomPetImage());
-      setCurrentFood(getRandomMenuImage());
-    }
-  }, [isFed]);
+const CafeGame = ({ handleSkip, currentChar, currentFood }) => {
+  const { isFed } = useGame();
 
   return (
     <div className={styles.cafeGameCtn}>
@@ -53,11 +19,13 @@ const CafeGame = () => {
         <div className={styles.speechCtn}>
           {!isFed ? (
             <>
-              <img
-                src={currentFood}
-                alt="Food Item"
-                className={styles.speechItem}
-              />
+              {currentFood && (
+                <img
+                  src={getImage(currentFood.image_url, "menu")} 
+                  alt={currentFood.name}
+                  className={styles.speechItem}
+                />
+              )}
               <img
                 src="./src/assets/gamePlay/pandaBowlEmpty.png"
                 alt="Empty Bowl"

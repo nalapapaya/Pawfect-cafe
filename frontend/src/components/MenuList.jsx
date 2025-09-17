@@ -5,7 +5,7 @@ import { useQueryClient, useMutation, useQuery } from "@tanstack/react-query";
 import { useGame } from "../context/GameContext";
 import useFetch from "../hooks/useFetch";
 
-const MenuList = () => {
+const MenuList = ({handleFeed}) => {
   const { accessToken } = useGame();
   const fetchData = useFetch();
   const queryClient = useQueryClient();
@@ -85,9 +85,7 @@ const MenuList = () => {
   if (!accessToken) {
     return <p>Login to view the menu.</p>;
   }
-
   if (isLoading) return <p>Loading menu..</p>;
-
   if (isError) {
     //backend error
     return (
@@ -96,7 +94,6 @@ const MenuList = () => {
       </p>
     );
   }
-
   if (!data || data.length === 0) {
     return <p>There's nothing in your menu, make some food in the kitchen!</p>;
   }
@@ -110,12 +107,7 @@ const MenuList = () => {
           <ItemsCard
             key={item.id}
             item={item}
-            onDispose={(qtyChange = -1) =>
-              mutation.mutate({
-                itemId: item.id,
-                qtyChange,
-              })
-            }
+            handleFeed={handleFeed}
             isMenu
           />
         ))}

@@ -4,7 +4,7 @@ import { useGame } from "../context/GameContext";
 import useFetch from "../hooks/useFetch";
 import MenuList from "./MenuList";
 
-const Menu = () => {
+const Menu = ({handleFeed}) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -18,7 +18,7 @@ const Menu = () => {
       </div>
 
       <div className={styles.menuContent}>
-       <MenuList/>
+       <MenuList handleFeed={handleFeed}/>
       </div>
     </div>
   );
