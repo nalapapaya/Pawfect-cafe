@@ -1,12 +1,10 @@
 import { useState } from "react";
 import styles from "./SettingsPage.module.css";
-import { useGame } from "../context/GameContext";
 import MenuList from "../components/MenuList";
 import Profile from "../components/Profile";
 
 export default function SettingsTabs() {
   const [activeTab, setActiveTab] = useState("profile");
-  const {username, coinCount, heartCount} = useGame();
 
   return (
     <div className={styles.settingsCtn}>

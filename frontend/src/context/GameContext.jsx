@@ -9,10 +9,7 @@ export const GameProvider = ({ children }) => {
   //children = everything in here gets passed
   const [coinCount, setCoinCount] = useState(0);
   const [heartCount, setHeartCount] = useState(0);
-  const [totalHeartsEarned, setTotalHeartsEarned] = useState(0);
-  const [totalCoinsEarned, setTotalCoinsEarned] = useState(0);
   const [isFed, setIsFed] = useState(false);
-  // const fetchData = useFetch();
 
   // use username from localstorage
   const [username, setUsername] = useState(
@@ -28,6 +25,12 @@ export const GameProvider = ({ children }) => {
     () => localStorage.getItem("joinedSince") || ""
   );
   //   console.log("joinedSince in GameContext:", joinedSince);
+  const [totalHeartsEarned, setTotalHeartsEarned] = useState(
+    () => parseInt(localStorage.getItem("totalHeartsEarned")) || 0
+  );
+  const [totalCoinsEarned, setTotalCoinsEarned] = useState(
+    () => parseInt(localStorage.getItem("totalCoinsEarned")) || 0
+  );
 
   useEffect(() => {
     if (username) {
@@ -61,23 +64,13 @@ export const GameProvider = ({ children }) => {
     }
   }, [joinedSince]);
 
-  // useEffect(() => {
-  //   const loadScores = async () => {
-  //     if (!accessToken) return; // not logged in yet
-  //     try {
-  //       const res = await fetchData("/api/score", "GET", null, accessToken);
-  //       if (res) {
-  //         setHeartCount(res.heart_score);
-  //         setCoinCount(res.coin_score);
-  //         setTotalHeartsEarned(res.total_hearts_earned);
-  //         setTotalCoinsEarned(res.total_coins_earned);
-  //       }
-  //     } catch (err) {
-  //       console.error("Failed to load scores:", err);
-  //     }
-  //   };
-  //   loadScores();
-  // }, [accessToken]);
+  useEffect(() => {
+    localStorage.setItem("totalHeartsEarned", totalHeartsEarned);
+  }, [totalHeartsEarned]);
+
+  useEffect(() => {
+    localStorage.setItem("totalCoinsEarned", totalCoinsEarned);
+  }, [totalCoinsEarned]);
 
   return (
     <GameContext.Provider

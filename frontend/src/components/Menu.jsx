@@ -5,9 +5,7 @@ import useFetch from "../hooks/useFetch";
 import MenuList from "./MenuList";
 
 const Menu = () => {
-  const { setCoinCount, setHeartCount, setIsFed, accessToken } = useGame();
   const [isOpen, setIsOpen] = useState(false);
-  const fetchData = useFetch();
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);

@@ -1,11 +1,17 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./CafeGame.module.css";
 import { useGame } from "../context/GameContext";
 import useFetch from "../hooks/useFetch";
+import { getRandomPetImage } from "../utils/getRandomImage";
+import { getRandomMenuImage } from "../utils/getImage";
 
 const CafeGame = () => {
   const { setHeartCount, isFed, setIsFed, accessToken } = useGame();
   const fetchData = useFetch();
+
+  //random image at spawn
+  const [currentChar, setCurrentChar] = useState(getRandomPetImage());
+  const [currentFood, setCurrentFood] = useState(getRandomMenuImage());
 
   const handleSkip = async () => {
     setIsFed(false);
@@ -22,14 +28,24 @@ const CafeGame = () => {
       },
       accessToken
     );
+    setCurrentChar(getRandomPetImage());
+    setCurrentFood(getRandomMenuImage());
   };
+
+  useEffect(() => {
+    if (!isFed) {
+      //new character when animation is done
+      setCurrentChar(getRandomPetImage());
+      setCurrentFood(getRandomMenuImage());
+    }
+  }, [isFed]);
 
   return (
     <div className={styles.cafeGameCtn}>
       <div>
         <div>
           <img
-            src="./src/assets/pets/alpaca.png"
+            src={currentChar}
             alt="Pet Character"
             className={styles.petChar}
           />
@@ -38,7 +54,7 @@ const CafeGame = () => {
           {!isFed ? (
             <>
               <img
-                src="./src/assets/foods/Menu/pupcake.png"
+                src={currentFood}
                 alt="Food Item"
                 className={styles.speechItem}
               />

@@ -1,6 +1,7 @@
 import React from "react";
 import { useGame } from "../context/GameContext";
 import { useNavigate } from "react-router-dom";
+import styles from './Profile.module.css'
 
 const Profile = () => {
   const { username, setUsername, setAccessToken, setRefreshToken, joinedSince, setJoinedSince, totalCoinsEarned, setTotalCoinsEarned, totalHeartsEarned, setTotalHeartsEarned, heartCount, coinCount } = useGame();
@@ -24,8 +25,8 @@ const Profile = () => {
   };
 
   return (
-    <>
-      <div>
+    <div className={styles.profileCtn}>
+      <div className={styles.profileInfoCtn}>
         <div>Username: {username}</div>
         <div>Joined since: {joinedSince}</div>
         <div>Current heart count: {heartCount}</div>
@@ -33,10 +34,10 @@ const Profile = () => {
         <div>Total earned coins: {totalCoinsEarned}</div>
         <div>Total earned hearts: {totalHeartsEarned}</div>
       </div>
-      <div>
-        <button onClick={handleLogout}>Logout</button>
+      <div className={styles.btnCtn}>
+        <button className={styles.logoutBtn} onClick={handleLogout}><span className={styles.logoutLabel}>Logout</span></button>
       </div>
-    </>
+    </div>
   );
 };
 

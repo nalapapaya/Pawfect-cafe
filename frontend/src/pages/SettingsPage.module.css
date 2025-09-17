@@ -9,28 +9,27 @@
   opacity: 0.8;
 }
 
-.setContentCtn{
-    z-index: 9999;
-    background-color: red;
-    width: 80%;
-    min-height: 68%;
-    position: fixed;
-    top: 13%;
-    left: 10%;
+.setContentCtn {
+  z-index: 9999;
+  /* background-color: red; */
+  width: 60%;
+  min-height: 68%;
+  position: fixed;
+  top: 13%;
+  left: 20%;
 }
 
 .tabContainer {
-  border: 2px solid #ccc;
-  border-radius: 8px;
+  border: 2px solid #9a5e1e;
+  border-radius: 32px;
   padding: 1rem;
-  background: white;
+  background-color: rgba(255, 255, 255, 0.8);
   max-width: 100%;
   height: 32rem;
 }
 
 .tabButtons {
   display: flex;
-  border-bottom: 2px solid #ccc;
   margin-bottom: 1rem;
 }
 
@@ -38,13 +37,19 @@
   background: none;
   border: none;
   padding: 0.5rem 1rem;
-  font-weight: bold;
   border-bottom: 2px solid transparent;
+  position: relative;
+  z-index: 1;
+  font: 800 30px/1.05 "Baloo 2", "Fredoka", system-ui, sans-serif;
+  letter-spacing: 0.5px;
+  color: #ffe7ca;
+  text-shadow: 0 3px 0 #9a5e1e, 0 -3px 0 #9a5e1e, 3px 0 0 #9a5e1e,
+    -3px 0 0 #9a5e1e, 2px 2px 0 #9a5e1e, -2px 2px 0 #9a5e1e, 2px -2px 0 #9a5e1e,
+    -2px -2px 0 #9a5e1e;
 }
 
 .tab.active {
-  border-bottom: 2px solid blue;
-  color: blue;
+  border-bottom: 2px solid #9a5e1e;
 }
 
 .tabContent {

@@ -26,3 +26,8 @@ export const getImage = (filename, type) => {
 
   return null; //no match fallback
 };
+
+export const getRandomMenuImage = () => {
+  const files = Object.values(menuImages).map((m) => m.default); //returns default: path
+  return files[Math.floor(Math.random() * files.length)]; // pick random
+};
