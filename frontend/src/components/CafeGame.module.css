@@ -3,13 +3,13 @@
 }
 
 .petChar {
-  width: 15rem;
+  width: 20rem;
   height: 30rem;
-  object-fit: cover;
+  object-fit: contain;
   object-position: bottom;
   position: fixed;
-  left: 40%;
-  top: 25%;
+  left: 37%;
+  bottom: 22%;
   /* background-color: black; */
 }
 

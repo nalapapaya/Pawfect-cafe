@@ -56,11 +56,34 @@
   border-radius: 22px;
 }
 
-.ordersCard::before{
+.ordersCard::before {
   border-radius: 20px;
   inset: 4px;
 }
+
 .ordersCard img {
   width: 4rem;
   height: 4rem;
+}
+
+.kitchensCard {
+  height: 5.5rem;
+  width: 5.5rem;
+  border-radius: 20px;
+}
+
+.kitchensCard::before {
+  border-radius: 18px;
+  inset: 4px;
+}
+
+.kitchensCard img {
+  width: 4rem;
+  height: 4rem;
+}
+
+.invQty {
+  bottom: 0.3rem;
+  right: 0.3rem;
+  font-size: 1rem;
 }

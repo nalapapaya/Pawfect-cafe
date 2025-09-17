@@ -8,8 +8,15 @@ import useFetch from "../hooks/useFetch";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 const CafePage = () => {
-  const { setHeartCount, setIsFed, accessToken, isFed, setCoinCount, setTotalHeartsEarned, setTotalCoinsEarned } =
-    useGame();
+  const {
+    setHeartCount,
+    setIsFed,
+    accessToken,
+    isFed,
+    setCoinCount,
+    setTotalHeartsEarned,
+    setTotalCoinsEarned,
+  } = useGame();
   //random image at spawn
   const [currentChar, setCurrentChar] = useState(getRandomPetImage());
   const [currentFood, setCurrentFood] = useState(null);
@@ -31,7 +38,10 @@ const CafePage = () => {
   // picking random food from catalog (menu)
   const getRandomMenuItem = (catalog) => {
     if (!catalog) return null; // safer when return undefined
-    const combined = catalog.filter((item) => item.item_type === "combined"); // only want combined items
+    const combined = catalog.filter(
+      (item) =>
+        item.item_type === "combined" && item.name.toLowerCase() !== "kibbles"
+    ); // only want combined items, exclude kibbles
     return combined[Math.floor(Math.random() * combined.length)]; //send random food
   };
 
@@ -54,8 +64,8 @@ const CafePage = () => {
       //update score on frontend immediately
       setHeartCount((prev) => prev + heartPoints);
       setCoinCount((prev) => prev + coinPoints);
-      setTotalHeartsEarned(prev => prev + heartPoints);
-setTotalCoinsEarned(prev => prev + coinPoints);
+      setTotalHeartsEarned((prev) => prev + heartPoints);
+      setTotalCoinsEarned((prev) => prev + coinPoints);
 
       //sync with backend scores
       const scoreRes = await fetchData(
@@ -102,7 +112,7 @@ setTotalCoinsEarned(prev => prev + coinPoints);
     setIsFed(false);
 
     //update score on frontend immediately
-    setHeartCount((prev) => prev - 2);
+    setHeartCount((prev) => Math.max(0, prev - 2)); //cannot be less than 0
 
     //sync with backend
     await fetchData("/api/score", "POST", { heart_score: -2 }, accessToken);

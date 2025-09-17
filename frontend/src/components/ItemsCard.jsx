@@ -7,6 +7,7 @@ const ItemsCard = ({
   handleFeed,
   isMenu = false,
   isOrdersPage = false,
+  isKitchenPage = false,
 }) => {
   const imageSrc = getImage(
     item.image_url,
@@ -24,7 +25,9 @@ const ItemsCard = ({
     <div className={styles.inventoryCard}>
       <button
         onClick={isMenu ? handleClick : undefined} //dont trigger if dont pass isMenu
-        className={`${styles.feedBtn} ${isOrdersPage ? styles.ordersCard : ""}`}
+        className={`${styles.feedBtn} ${
+          isOrdersPage ? styles.ordersCard : ""
+        } ${isKitchenPage ? styles.kitchensCard : ""}`}
         disabled={item.qty === 0}
       >
         {imageSrc ? (
@@ -39,7 +42,15 @@ const ItemsCard = ({
           <div className={styles.itemImage}>No Img</div>
         )}
         {/* Overlay quantity number */}
-        {!isOrdersPage && <div className={styles.itemQty}>{item.qty}</div>}
+        {!isOrdersPage && (
+          <div
+            className={`${styles.itemQty} ${
+              isKitchenPage ? styles.invQty : ""
+            }`}
+          >
+            {item.qty}
+          </div>
+        )}
       </button>
     </div>
   );

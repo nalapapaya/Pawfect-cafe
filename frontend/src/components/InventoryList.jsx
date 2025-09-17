@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import ItemsCard from "./ItemsCard";
-import styles from "./MenuList.module.css";
+import styles from "./InventoryList.module.css";
 import { useQueryClient, useMutation, useQuery } from "@tanstack/react-query";
 import { useGame } from "../context/GameContext";
 import useFetch from "../hooks/useFetch";
@@ -10,7 +10,7 @@ const InventoryList = ({ onSelectItem, tempInventory }) => {
   const fetchData = useFetch();
   const queryClient = useQueryClient();
   const [page, setPage] = useState(0);
-  const itemsPerPage = 9;
+  const itemsPerPage = 16;
   const [slicedData, setSlicedData] = useState([]);
 
   // Fetch inventory from backend
@@ -137,6 +137,7 @@ const InventoryList = ({ onSelectItem, tempInventory }) => {
                     qtyChange,
                   })
                 }
+                isKitchenPage
               />
             </div>
           );
