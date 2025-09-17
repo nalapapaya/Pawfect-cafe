@@ -1,4 +1,3 @@
-// MessageModal.jsx
 import React from "react";
 import styles from "./MessageModal.module.css";
 

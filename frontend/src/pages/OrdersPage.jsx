@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styles from "./OrdersPage.module.css";
 import useFetch from "../hooks/useFetch";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import ItemsCard from "../components/ItemsCard";
 import { useGame } from "../context/GameContext";
 import { getImage } from "../utils/getImage";
@@ -11,6 +11,7 @@ const OrdersPage = () => {
   const [showModal, setShowModal] = useState(false);
   const [purchasedItems, setPurchasedItems] = useState([]);
   const [cart, setCart] = useState([]);
+  const queryClient = useQueryClient();
   const fetchData = useFetch();
   const { accessToken, coinCount, setCoinCount, setMessage } = useGame();
   const getTotalCost = () =>
@@ -128,8 +129,11 @@ const OrdersPage = () => {
         setShowModal(true);
         console.log("Purchase successful");
       } else {
-        setMessage("There's nothing in cart, add some goodies!")
+        setMessage("There's nothing in cart, add some goodies!");
       }
+      queryClient.invalidateQueries(["inventory"]);
+      queryClient.invalidateQueries(["inventoryRaw"]);
+      queryClient.invalidateQueries(["inventoryMenu"]);
     } catch (e) {
       console.error("Purchase error:", e);
       // rollback coins if total failure
@@ -164,45 +168,57 @@ const OrdersPage = () => {
 
         <div className={styles.shoppingCartCtn}>
           <div className={styles.shoppingCartTitle}>Cart</div>
-          {cart.length === 0 && <p>Cart is empty</p>}
-          {cart.map((item) => {
-            const imageSrc = getImage(
-              item.image_url,
-              item.item_type === "raw" ? "ingredient" : "menu"
-            );
+          <div className={styles.cartItemsWrapper}>
+            {cart.length === 0 && <div className={styles.font}>Cart is empty</div>}
+            {cart.map((item) => {
+              const imageSrc = getImage(
+                item.image_url,
+                item.item_type === "raw" ? "ingredient" : "menu"
+              );
 
-            return (
-              <div key={item.id} className={styles.cartItem}>
-                {imageSrc ? (
-                  <img
-                    src={imageSrc}
-                    alt={item.name}
-                    className={styles.cartImage}
-                  />
-                ) : (
-                  <div className={styles.cartImage}>No Img</div>
-                )}
+              return (
+                <div key={item.id} className={styles.cartItem}>
+                  {imageSrc ? (
+                    <img
+                      src={imageSrc}
+                      alt={item.name}
+                      className={styles.cartImage}
+                    />
+                  ) : (
+                    <div className={styles.cartImage}>No Img</div>
+                  )}
 
-                <div className={styles.cartInfo}>
-                  <p>{item.name}</p>
-                  <p>Cost: {getCost(item) * item.qty} coins</p>
+                  <div className={styles.cartInfo}>
+                    <div>{item.name}</div>
 
-                  <div className={styles.qtyControls}>
-                    <button onClick={() => handleUpdateQty(item.id, -1)}>
-                      -
-                    </button>
-                    <span>{item.qty}</span>
-                    <button onClick={() => handleUpdateQty(item.id, +1)}>
-                      +
-                    </button>
+                    <div className={styles.qtyControls}>
+                      <div className={styles.itemCost}>
+                        <span className={styles.font}>{getCost(item) * item.qty}</span>
+                        <img
+                          src="./src/assets/gamePlay/pawCoin.png"
+                          alt="Coins"
+                          className={styles.coin}
+                        />
+                      </div>
+                      <button className={styles.font} onClick={() => handleUpdateQty(item.id, -1)}>
+                        -
+                      </button>
+                      <span className={styles.font}>{item.qty}</span>
+                      <button className={styles.font} onClick={() => handleUpdateQty(item.id, +1)}>
+                        +
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            );
-          })}
-
+              );
+            })}
+          </div>
           <div className={styles.purchaseSection}>
-            <p>Total: {getTotalCost()} coins</p>
+            <div>Total: {getTotalCost()} <img
+                          src="./src/assets/gamePlay/pawCoin.png"
+                          alt="Coins"
+                          className={styles.coinTotal}
+                        /></div>
             <button onClick={handlePurchase} className={styles.purchaseBtn}>
               Purchase
             </button>

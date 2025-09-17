@@ -63,6 +63,14 @@
 
 .shoppingCartCtn {
   width: 35rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.cartItemsWrapper {
+  flex: 1; /* take all space */
+  overflow-y: auto; /* scrollbar */
+  margin-bottom: 0.5rem;
 }
 
 .vendorItems {
@@ -77,8 +85,12 @@
 .cartItem {
   display: flex;
   align-items: center;
-  gap: 1rem;
-  margin-bottom: 0.5rem;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  margin: 0.2rem;
+  background-color: rgba(255,255,255,0.3);
+  border-radius: 20px;
 }
 
 .cartImage {
@@ -86,10 +98,20 @@
   height: 50px;
   object-fit: cover;
   border-radius: 6px;
+  background-color: white;
+  border: 2px solid #9a5e1e;
 }
 
 .cartInfo {
-  flex-grow: 1;
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cartInfo div {
+  margin: 0;
+  font-size: 0.9rem;
 }
 
 .qtyControls {
@@ -113,8 +135,11 @@
 }
 
 .purchaseSection {
-  margin-top: 1rem;
-  text-align: right;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 0.5rem;
+  border-top: 2px solid #9a5e1e;
 }
 
 .purchaseBtn {
@@ -123,4 +148,24 @@
   border: 2px solid #9a5e1e;
   border-radius: 6px;
   font-weight: bold;
+}
+
+.coin{
+  height: 2rem;
+  width: 2rem;
+}
+
+.font{
+  font-size: 1.5rem;
+}
+
+.itemCost{
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+
+.coinTotal{
+height: 1.8rem;
+width: 1.8rem;
 }

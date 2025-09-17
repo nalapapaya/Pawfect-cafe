@@ -5,12 +5,15 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useGame } from "../context/GameContext";
 import useFetch from "../hooks/useFetch";
 import { getImage } from "../utils/getImage";
+import CombineModal from "../modals/CombineModal";
 
 const KitchenPage = () => {
   const [ingredients, setIngredients] = useState([null, null, null]);
   const [tempInventory, setTempInventory] = useState(null); // track frontend inv adjustment
   const { accessToken, setMessage } = useGame();
   const fetchData = useFetch();
+  const [showCombineModal, setShowCombineModal] = useState(false);
+  const [combinedItem, setCombinedItem] = useState(null);
   const queryClient = useQueryClient();
   const filledSlots = ingredients.filter((slot) => slot !== null); // only slots with ingredient
   // const canCombine = filledSlots.length >= 2; //can only combine with 2 or more
@@ -106,6 +109,15 @@ const KitchenPage = () => {
       setIngredients([null, null, null]);
       setTempInventory(null);
 
+      // show modal with combined item
+      setCombinedItem({
+        id: res.item_id,
+        name: res.item_name,
+        image_url: res.image_url,
+        qty: 1,
+      });
+      setShowCombineModal(true);
+
       // refresh inv
       queryClient.invalidateQueries(["inventoryRaw"]);
     } catch (e) {
@@ -169,6 +181,11 @@ const KitchenPage = () => {
           </div>
         </div>
       </div>
+      <CombineModal
+        isOpen={showCombineModal}
+        item={combinedItem}
+        onClose={() => setShowCombineModal(false)}
+      />
     </div>
   );
 };

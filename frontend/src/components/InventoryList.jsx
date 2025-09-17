@@ -71,8 +71,6 @@ const InventoryList = ({ onSelectItem, tempInventory }) => {
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ["inventoryRaw"],
     queryFn: fetchInventory,
-    refetchOnMount: true, //fetch on mount so works everywhere
-    refetchOnWindowFocus: false, //dont spam fetch
   });
 
   const mutation = useMutation({
@@ -89,10 +87,12 @@ const InventoryList = ({ onSelectItem, tempInventory }) => {
     if (data) {
       //if data res is true
       setSlicedData(
-        data.slice(page * itemsPerPage, (page + 1) * itemsPerPage) //slice this data into different pages
+        data
+          .sort((a, b) => a.id - b.id)
+          .slice(page * itemsPerPage, (page + 1) * itemsPerPage) //slice this data into different pages
       );
     }
-  }, [page, itemsPerPage]); //render everytime page or itemsPerPage changes
+  }, [page, itemsPerPage, data]); //render everytime page or itemsPerPage changes
 
   if (!accessToken) {
     //why put here

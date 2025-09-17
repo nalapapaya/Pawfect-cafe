@@ -58,12 +58,12 @@ def update_score(): #updating and/or adding score
             results = cursor.fetchone()
 
         # update where available else keep current
-        cursor.execute("UPDATE game_scores SET heart_score = heart_score + %s, " #add update, current
-                       "coin_score = coin_score + %s, "
+        cursor.execute("UPDATE game_scores SET heart_score = GREATEST(0, heart_score + %s), " #add update, current
+                       "coin_score = GREATEST(0, coin_score + %s), "
                        "total_hearts_earned = total_hearts_earned + GREATEST(%s, 0), " #always update score (add only if positive)
                        "total_coins_earned = total_coins_earned + GREATEST(%s, 0), "
-                       "last_updated = now()"
-                       " WHERE user_id = %s",
+                       "last_updated = now() "
+                       "WHERE user_id = %s",
                        (heart_score or 0, coin_score or 0, heart_score or 0, coin_score or 0, user_id))
         conn.commit()
         return jsonify(status='ok', msg='Scores added'), 200
