@@ -9,11 +9,11 @@ import { getImage } from "../utils/getImage";
 const KitchenPage = () => {
   const [ingredients, setIngredients] = useState([null, null, null]);
   const [tempInventory, setTempInventory] = useState(null); // track frontend inv adjustment
-  const { accessToken } = useGame();
+  const { accessToken, setMessage } = useGame();
   const fetchData = useFetch();
   const queryClient = useQueryClient();
   const filledSlots = ingredients.filter((slot) => slot !== null); // only slots with ingredient
-  const canCombine = filledSlots.length >= 2; //can only combine with 2 or more
+  // const canCombine = filledSlots.length >= 2; //can only combine with 2 or more
 
   // helper fn to commit mutation
   const commitIngredients = async (slots) => {
@@ -80,7 +80,8 @@ const KitchenPage = () => {
   };
 
   const handleCombine = async () => {
-    if (filledSlots.length < 2) return; //must have 2 ing to combine
+    if (filledSlots.length < 2)
+      return setMessage("Add at least 2 ingredients to combine!"); //must have 2 ing to combine
 
     try {
       const payload = filledSlots.map((item) => ({
@@ -97,10 +98,9 @@ const KitchenPage = () => {
 
       if (res?.ok === false || res?.status === "error") {
         console.log(`Combine failed: ${res.msg}`);
+        setMessage("Failed to combine, please try again later.");
         return;
       }
-
-      alert(res.msg); //remove when got UI
 
       // reset slots + temp inv
       setIngredients([null, null, null]);
@@ -110,7 +110,7 @@ const KitchenPage = () => {
       queryClient.invalidateQueries(["inventoryRaw"]);
     } catch (e) {
       console.error("Combine error:", e);
-      // set msg
+      setMessage("Something went wrong. We can't combine items now.");
     }
   };
 
@@ -151,7 +151,7 @@ const KitchenPage = () => {
             })}
           </div>
           <button
-            disabled={!canCombine}
+            // disabled={!canCombine}
             className={styles.combineBtn}
             onClick={handleCombine}
           >

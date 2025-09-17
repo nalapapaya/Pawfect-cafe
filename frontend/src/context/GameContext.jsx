@@ -10,6 +10,7 @@ export const GameProvider = ({ children }) => {
   const [coinCount, setCoinCount] = useState(0);
   const [heartCount, setHeartCount] = useState(0);
   const [isFed, setIsFed] = useState(false);
+  const [message, setMessage] = useState(null); // for all messages popup
 
   // use username from localstorage
   const [username, setUsername] = useState(
@@ -93,6 +94,8 @@ export const GameProvider = ({ children }) => {
         setTotalHeartsEarned,
         totalCoinsEarned,
         setTotalCoinsEarned,
+        message,
+        setMessage,
       }}
     >
       {children}

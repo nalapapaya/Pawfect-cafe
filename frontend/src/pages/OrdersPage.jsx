@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styles from "./OrdersPage.module.css";
 import useFetch from "../hooks/useFetch";
 import { useQuery } from "@tanstack/react-query";
@@ -12,7 +12,7 @@ const OrdersPage = () => {
   const [purchasedItems, setPurchasedItems] = useState([]);
   const [cart, setCart] = useState([]);
   const fetchData = useFetch();
-  const { accessToken, coinCount, setCoinCount } = useGame();
+  const { accessToken, coinCount, setCoinCount, setMessage } = useGame();
   const getTotalCost = () =>
     cart.reduce((sum, item) => sum + getCost(item) * item.qty, 0); //add total
 
@@ -81,7 +81,7 @@ const OrdersPage = () => {
 
     if (coinCount < totalCost) {
       console.log("Not enough coins");
-      //set msg here
+      setMessage("You don't have enough coins. Feed some pets to earn coins!");
       return;
     }
 
@@ -102,7 +102,7 @@ const OrdersPage = () => {
         // rollback coins if failed
         setCoinCount((prev) => prev + totalCost);
         console.log(`Purchase failed: ${invRes.msg}`);
-        //set msg here
+        setMessage("Purchase failed. Please try again later.");
         return;
       }
 
@@ -116,7 +116,7 @@ const OrdersPage = () => {
 
       if (scoreRes?.ok === false || scoreRes?.status === "error") {
         console.log("Coin deduction failed:", scoreRes.msg);
-        //set msg here (purchase for free)
+        setMessage("Something went wrong and you got the item at no cost!");
       } else {
         console.log("Score updated:", scoreRes.msg);
       }
@@ -127,30 +127,25 @@ const OrdersPage = () => {
         setCart([]);
         setShowModal(true);
         console.log("Purchase successful");
+      } else {
+        setMessage("There's nothing in cart, add some goodies!")
       }
-      //set msg here
     } catch (e) {
       console.error("Purchase error:", e);
       // rollback coins if total failure
       setCoinCount((prev) => prev + totalCost);
-      //set msg here
+      setMessage("There's an error purchasing, please try again later.");
     }
   };
 
-  if (!accessToken) {
-    return <p>Login to view your inventory.</p>;
-  }
-
-  if (isLoading) return <p>Loading inventory..</p>;
-
-  if (isError) {
-    //backend error
+  if (!accessToken) return <div>Login to view your inventory.</div>;
+  if (isLoading) return <div>Loading inventory..</div>;
+  if (isError)
     return (
-      <p>
+      <div>
         Error loading inventory: {error?.message || "Something went wrong."}
-      </p>
+      </div>
     );
-  }
 
   return (
     <div className={styles.ordersPageCtn}>
