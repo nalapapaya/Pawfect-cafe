@@ -2,6 +2,7 @@ import { useState } from "react";
 import styles from "./SettingsPage.module.css";
 import MenuList from "../components/MenuList";
 import Profile from "../components/Profile";
+import Recipes from "../components/Recipes";
 
 export default function SettingsTabs() {
   const [activeTab, setActiveTab] = useState("profile");
@@ -18,10 +19,10 @@ export default function SettingsTabs() {
               Profile
             </button>
             <button
-              className={`${styles.tab} ${activeTab === "achievements" ? styles.active : ""}`}
-              onClick={() => setActiveTab("achievements")}
+              className={`${styles.tab} ${activeTab === "recipes" ? styles.active : ""}`}
+              onClick={() => setActiveTab("recipes")}
             >
-              Achievements
+              Recipes
             </button>
             <button
               className={`${styles.tab} ${activeTab === "inventory" ? styles.active : ""}`}
@@ -34,8 +35,8 @@ export default function SettingsTabs() {
           <div className={`${styles.tabContent} ${activeTab === "profile" ? styles.active : ""}`}>
             <Profile/>
           </div>
-          <div className={`${styles.tabContent} ${activeTab === "achievements" ? styles.active : ""}`}>
-            <p>Content 2</p>
+          <div className={`${styles.tabContent} ${activeTab === "recipes" ? styles.active : ""}`}>
+            <Recipes/>
           </div>
           <div className={`${styles.tabContent} ${activeTab === "inventory" ? styles.active : ""}`}>
             <MenuList/>

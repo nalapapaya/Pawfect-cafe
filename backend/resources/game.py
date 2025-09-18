@@ -22,11 +22,7 @@ def get_scores():
         cursor.execute('SELECT * FROM game_scores WHERE user_id=%s', (user_id,))
         score = cursor.fetchone()
 
-        if not score: #score no exist
-            return jsonify(heart_score=0,coin_score=0,total_hearts_earned=0,total_coins_earned=0), 200
-
         return jsonify(score), 200
-
     finally:
         release_connection(conn) #give conn back to pool
 
