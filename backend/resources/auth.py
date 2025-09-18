@@ -107,7 +107,7 @@ def get_all_user():
 
     return jsonify(users), 200
 
-@auth.route('/refresh') #assumed GET
+@auth.route('/refresh', methods=['POST']) #assumed GET
 @jwt_required(refresh=True)
 def refresh():
     identity = get_jwt_identity() #the identity set earlier

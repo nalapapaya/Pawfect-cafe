@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { jwtDecode } from "jwt-decode";
 
 export const GameContext = createContext();
 
@@ -33,25 +32,15 @@ export const GameProvider = ({ children }) => {
     () => parseInt(localStorage.getItem("totalCoinsEarned")) || 0
   );
 
-  //getting role id for restricted permission
-  const login = (token) => {
-    setAccessToken(token);
-    const decoded = jwtDecode(token); // decode payload from JWT
-    setRoleId(decoded.role_id); // store role_id into context
-    localStorage.setItem("roleId", decoded.role_id);
-  };
+useEffect(() => {
+  const storedToken = localStorage.getItem("access_token");
+  const storedRefresh = localStorage.getItem("refresh_token");
+  const storedRole = localStorage.getItem("roleId");
 
-  useEffect(() => {
-    const storedToken = localStorage.getItem("access_token");
-    const storedRole = localStorage.getItem("roleId");
-
-    if (storedToken) {
-      setAccessToken(storedToken);
-    }
-    if (storedRole) {
-      setRoleId(storedRole);
-    }
-  }, []);
+  if (storedToken) setAccessToken(storedToken);
+  if (storedRefresh) setRefreshToken(storedRefresh);
+  if (storedRole) setRoleId(Number(storedRole));
+}, []);
 
   useEffect(() => {
     if (username) {
@@ -126,7 +115,6 @@ export const GameProvider = ({ children }) => {
         setMessage,
         roleId,
         setRoleId,
-        login,
       }}
     >
       {children}

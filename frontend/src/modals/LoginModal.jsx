@@ -3,6 +3,7 @@ import styles from "./Modal.module.css";
 import { useNavigate } from "react-router-dom";
 import { useGame } from "../context/GameContext";
 import useFetch from "../hooks/useFetch";
+import { jwtDecode } from "jwt-decode";
 
 const LoginModal = ({ onClose }) => {
   const fetchData = useFetch();
@@ -15,7 +16,8 @@ const LoginModal = ({ onClose }) => {
     setTotalHeartsEarned,
     setTotalCoinsEarned,
     setAccessToken,
-    login,
+    setRefreshToken,
+    setRoleId,
   } = useGame();
   const [error, setError] = useState("");
   const [usernameInput, setUsernameInput] = useState("");
@@ -35,13 +37,16 @@ const LoginModal = ({ onClose }) => {
       });
 
       if (res.success) {
+        const decoded = jwtDecode(res.access);
+        setRoleId(decoded.role_id);
+        localStorage.setItem("roleId", decoded.role_id);
         localStorage.setItem("access_token", res.access);
         localStorage.setItem("refresh_token", res.refresh);
         localStorage.setItem("username", res.username);
+        setRefreshToken(res.refresh);
         setAccessToken(res.access);
         setUsername(res.username);
         setJoinedSince(res.joined_since);
-        login(res.access);
 
         //fetch score after acquiring token
         const userScore = await fetchData(
