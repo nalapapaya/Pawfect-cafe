@@ -1,0 +1,38 @@
+.adminPanel {
+  padding: 1.5rem;
+  background: yellow;
+  border-radius: 12px;
+  max-width: 100%;
+  margin: 0;
+}
+
+.adminPanel h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  text-align: left;
+  color: #333;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.inputGroup label {
+  font-weight: 600;
+  color: #444;
+}
+
+.inputGroup input {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.inlineRow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}

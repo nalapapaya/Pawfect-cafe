@@ -8,7 +8,7 @@ const CombineModal = ({ isOpen, item, onClose }) => {
   return (
     <div className={styles.modalOverlay}>
       <div className={styles.modalContent}>
-        <h2>Combine Success!</h2>
+        <div className={styles.modalTitle}>Combine Success!</div>
 
         <div className={styles.itemBox}>
           {getImage(item.image_url, "menu") ? (

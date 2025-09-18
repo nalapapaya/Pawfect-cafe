@@ -1,11 +1,13 @@
 import { useState } from "react";
 import styles from "./SettingsPage.module.css";
-import MenuList from "../components/MenuList";
 import Profile from "../components/Profile";
 import Recipes from "../components/Recipes";
+import { useGame } from "../context/GameContext";
+import AdminPanel from "../components/AdminPanel";
 
 export default function SettingsTabs() {
   const [activeTab, setActiveTab] = useState("profile");
+  const { roleId } = useGame(); // for access permission
 
   return (
     <div className={styles.settingsCtn}>
@@ -13,33 +15,53 @@ export default function SettingsTabs() {
         <div className={styles.tabContainer}>
           <div className={styles.tabButtons}>
             <button
-              className={`${styles.tab} ${activeTab === "profile" ? styles.active : ""}`}
+              className={`${styles.tab} ${
+                activeTab === "profile" ? styles.active : ""
+              }`}
               onClick={() => setActiveTab("profile")}
             >
               Profile
             </button>
             <button
-              className={`${styles.tab} ${activeTab === "recipes" ? styles.active : ""}`}
+              className={`${styles.tab} ${
+                activeTab === "recipes" ? styles.active : ""
+              }`}
               onClick={() => setActiveTab("recipes")}
             >
               Recipes
             </button>
-            <button
-              className={`${styles.tab} ${activeTab === "inventory" ? styles.active : ""}`}
-              onClick={() => setActiveTab("inventory")}
-            >
-              Inventory
-            </button>
+            {roleId === 1 && ( // only show tab if user is admin
+              <button
+                className={`${styles.tab} ${
+                  activeTab === "adminPanel" ? styles.active : ""
+                }`}
+                onClick={() => setActiveTab("adminPanel")}
+              >
+                Admin
+              </button>
+            )}
           </div>
 
-          <div className={`${styles.tabContent} ${activeTab === "profile" ? styles.active : ""}`}>
-            <Profile/>
+          <div
+            className={`${styles.tabContent} ${
+              activeTab === "profile" ? styles.active : ""
+            }`}
+          >
+            <Profile />
           </div>
-          <div className={`${styles.tabContent} ${activeTab === "recipes" ? styles.active : ""}`}>
-            <Recipes/>
+          <div
+            className={`${styles.tabContent} ${
+              activeTab === "recipes" ? styles.active : ""
+            }`}
+          >
+            <Recipes />
           </div>
-          <div className={`${styles.tabContent} ${activeTab === "inventory" ? styles.active : ""}`}>
-            <MenuList/>
+          <div
+            className={`${styles.tabContent} ${
+              activeTab === "adminPanel" ? styles.active : ""
+            }`}
+          >
+            <AdminPanel />
           </div>
         </div>
       </div>

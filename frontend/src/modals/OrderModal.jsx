@@ -8,7 +8,7 @@ const OrderModal = ({ isOpen, items, onClose }) => {
   return (
     <div className={styles.modalOverlay}>
       <div className={styles.modalContent}>
-        <h2>Purchase Successful</h2>
+        <div className={styles.modalTitle}>Purchase Successful</div>
 
         <div className={styles.itemsGrid}>
           {items.map((item) => {

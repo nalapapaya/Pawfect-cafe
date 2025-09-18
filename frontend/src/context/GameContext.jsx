@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
-import useFetch from "../hooks/useFetch";
+import { jwtDecode } from "jwt-decode";
 
 export const GameContext = createContext();
 
@@ -11,6 +11,7 @@ export const GameProvider = ({ children }) => {
   const [heartCount, setHeartCount] = useState(0);
   const [isFed, setIsFed] = useState(false);
   const [message, setMessage] = useState(null); // for all messages popup
+  const [roleId, setRoleId] = useState(null);
 
   // use username from localstorage
   const [username, setUsername] = useState(
@@ -31,6 +32,26 @@ export const GameProvider = ({ children }) => {
   const [totalCoinsEarned, setTotalCoinsEarned] = useState(
     () => parseInt(localStorage.getItem("totalCoinsEarned")) || 0
   );
+
+  //getting role id for restricted permission
+  const login = (token) => {
+    setAccessToken(token);
+    const decoded = jwtDecode(token); // decode payload from JWT
+    setRoleId(decoded.role_id); // store role_id into context
+    localStorage.setItem("roleId", decoded.role_id);
+  };
+
+  useEffect(() => {
+    const storedToken = localStorage.getItem("access_token");
+    const storedRole = localStorage.getItem("roleId");
+
+    if (storedToken) {
+      setAccessToken(storedToken);
+    }
+    if (storedRole) {
+      setRoleId(storedRole);
+    }
+  }, []);
 
   useEffect(() => {
     if (username) {
@@ -65,11 +86,19 @@ export const GameProvider = ({ children }) => {
   }, [joinedSince]);
 
   useEffect(() => {
-    localStorage.setItem("totalHeartsEarned", totalHeartsEarned.toString());
+    if (totalHeartsEarned) {
+      localStorage.setItem("totalHeartsEarned", totalHeartsEarned.toString());
+    } else {
+      localStorage.removeItem("totalHeartsEarned");
+    }
   }, [totalHeartsEarned]);
 
   useEffect(() => {
-    localStorage.setItem("totalCoinsEarned", totalCoinsEarned.toString());
+    if (totalCoinsEarned) {
+      localStorage.setItem("totalCoinsEarned", totalHeartsEarned.toString());
+    } else {
+      localStorage.removeItem("totalCoinsEarned");
+    }
   }, [totalCoinsEarned]);
 
   return (
@@ -95,6 +124,9 @@ export const GameProvider = ({ children }) => {
         setTotalCoinsEarned,
         message,
         setMessage,
+        roleId,
+        setRoleId,
+        login,
       }}
     >
       {children}

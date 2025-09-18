@@ -10,6 +10,7 @@ import NavBar from "./components/NavBar";
 import Banner from "./components/Banner";
 import { useGame } from "./context/GameContext";
 import MessageModal from "./modals/MessageModal";
+import './App.css';
 
 const queryClient = new QueryClient();
 

@@ -39,8 +39,12 @@ const useFetch = () => {
         ifBodyNeeded
       );
 
-      let data;
-      data = await res.json();
+      let data = null;
+      try {
+        data = await res.json(); //safe parse
+      } catch {
+        data = null;
+      }
 
       // try refresh if expire
       if (res.status === 401 && retry && refreshToken) {
@@ -56,7 +60,10 @@ const useFetch = () => {
           );
 
           const refreshData = await refreshRes.json();
-          if (!refreshRes.ok || !refreshData.access) {
+          if (
+            !refreshRes.ok ||
+            !(refreshData.access || refreshData.access_token)
+          ) {
             // refresh failed = reset states
             setAccessToken("");
             setRefreshToken("");
@@ -66,12 +73,17 @@ const useFetch = () => {
           }
 
           //store new token
-          setAccessToken(refreshData.access);
+          setAccessToken(refreshData.access || refreshData.access_token);
 
           // retry with new token
-          return fetchData(endpoint, method, body, refreshData.access, false); // try once only
-        } catch (e) {
-          console.error("Refresh failed:", e);
+          return fetchData(
+            endpoint,
+            method,
+            body,
+            refreshData.access || refreshData.access_token,
+            false
+          ); // try once only
+        } catch {
           setAccessToken("");
           setRefreshToken("");
           setUsername("");
@@ -83,10 +95,8 @@ const useFetch = () => {
       if (!res.ok) {
         // flask {status: "error", msg: ""}
         if (data?.status === "error" && data?.msg) {
-          console.error("data.msg:", data.msg);
           return { ok: false, msg: data.msg };
         } else {
-          console.error("Unexpected error payload:", data); // debug fallback
           return {
             ok: false,
             msg: "An unknown error has occurred, please try again later.",

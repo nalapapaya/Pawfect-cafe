@@ -1,10 +1,24 @@
 import React from "react";
 import { useGame } from "../context/GameContext";
 import { useNavigate } from "react-router-dom";
-import styles from './Profile.module.css'
+import styles from "./Profile.module.css";
 
 const Profile = () => {
-  const { username, setUsername, setAccessToken, setRefreshToken, joinedSince, setJoinedSince, totalCoinsEarned, setTotalCoinsEarned, totalHeartsEarned, setTotalHeartsEarned, heartCount, coinCount } = useGame();
+  const {
+    setRoleId,
+    username,
+    setUsername,
+    setAccessToken,
+    setRefreshToken,
+    joinedSince,
+    setJoinedSince,
+    totalCoinsEarned,
+    setTotalCoinsEarned,
+    totalHeartsEarned,
+    setTotalHeartsEarned,
+    heartCount,
+    coinCount,
+  } = useGame();
   const nav = useNavigate();
 
   const goToHome = () => {
@@ -18,6 +32,10 @@ const Profile = () => {
     setJoinedSince("");
     setTotalCoinsEarned("");
     setTotalHeartsEarned("");
+    setRoleId(null);
+    localStorage.removeItem("roleId");
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("refresh_token");
     goToHome();
   };
 
@@ -32,7 +50,9 @@ const Profile = () => {
         <div>Total earned hearts: {totalHeartsEarned}</div>
       </div>
       <div className={styles.btnCtn}>
-        <button className={styles.logoutBtn} onClick={handleLogout}><span className={styles.logoutLabel}>Logout</span></button>
+        <button className={styles.logoutBtn} onClick={handleLogout}>
+          <span className={styles.logoutLabel}>Logout</span>
+        </button>
       </div>
     </div>
   );

@@ -163,7 +163,9 @@ const OrdersPage = () => {
         <div className={styles.shoppingCartCtn}>
           <div className={styles.shoppingCartTitle}>Cart</div>
           <div className={styles.cartItemsWrapper}>
-            {cart.length === 0 && <div className={styles.font}>Cart is empty</div>}
+            {cart.length === 0 && (
+              <div className={styles.font}>Cart is empty</div>
+            )}
             {cart.map((item) => {
               const imageSrc = getImage(
                 item.image_url,
@@ -183,22 +185,29 @@ const OrdersPage = () => {
                   )}
 
                   <div className={styles.cartInfo}>
-                    <div>{item.name}</div>
-
+                    <div className={styles.font}>{item.name}</div>
                     <div className={styles.qtyControls}>
                       <div className={styles.itemCost}>
-                        <span className={styles.font}>{getCost(item) * item.qty}</span>
+                        <span className={styles.font}>
+                          {getCost(item) * item.qty}
+                        </span>
                         <img
                           src="./src/assets/gamePlay/pawCoin.png"
                           alt="Coins"
                           className={styles.coin}
                         />
                       </div>
-                      <button className={styles.font} onClick={() => handleUpdateQty(item.id, -1)}>
+                      <button
+                        className={styles.font}
+                        onClick={() => handleUpdateQty(item.id, -1)}
+                      >
                         -
                       </button>
                       <span className={styles.font}>{item.qty}</span>
-                      <button className={styles.font} onClick={() => handleUpdateQty(item.id, +1)}>
+                      <button
+                        className={styles.font}
+                        onClick={() => handleUpdateQty(item.id, +1)}
+                      >
                         +
                       </button>
                     </div>
@@ -208,11 +217,14 @@ const OrdersPage = () => {
             })}
           </div>
           <div className={styles.purchaseSection}>
-            <div>Total: {getTotalCost()} <img
-                          src="./src/assets/gamePlay/pawCoin.png"
-                          alt="Coins"
-                          className={styles.coinTotal}
-                        /></div>
+            <div className={styles.totalCtn}>
+              <span className={styles.totalCost}>Total: {getTotalCost()}</span>
+              <img
+                src="./src/assets/gamePlay/pawCoin.png"
+                alt="Coins"
+                className={styles.coinTotal}
+              />
+            </div>
             <button onClick={handlePurchase} className={styles.purchaseBtn}>
               Purchase
             </button>
