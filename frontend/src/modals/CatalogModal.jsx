@@ -38,9 +38,9 @@ const CatalogModal = ({ isOpen, onClose, onSelect, slotType }) => {
   return (
     <div className={styles.modalOverlay}>
       <div className={styles.modalContent}>
-        <h2>
+        <div className={styles.modalTitle}>
           Select {slotType === "ingredient" ? "Ingredient" : "Combined Food"}
-        </h2>
+        </div>
         <div className={styles.itemsGrid}>
           {filtered.map((item) => (
             <div

@@ -57,32 +57,49 @@ const AdminPanel = () => {
 
   return (
     <div className={styles.adminPanel}>
-      <h2>Add Points</h2>
+      <div className={styles.title}>Add Points</div>
       <div className={styles.inlineRow}>
-        <label>Username:</label>
-        <input
-          type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-
-        <label>❤️</label>
-        <input
-          type="number"
-          value={heartPoints}
-          onChange={(e) => setHeartPoints(e.target.value)}
-        />
-
-        <label>🪙</label>
-        <input
-          type="number"
-          value={coinPoints}
-          onChange={(e) => setCoinPoints(e.target.value)}
-        />
-
-        <button onClick={handleSubmit} disabled={loading}>
-          {loading ? "Updating..." : "Add"}
-        </button>
+        <div>
+          <label>Username: </label>
+          <input
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+        </div>
+        <div className={styles.inputCtn}>
+          <div>
+            
+              <img
+                src="./src/assets/gamePlay/pinkHeart.png"
+                alt="Hearts"
+                className={styles.img}
+              />
+        
+            <input
+              type="number"
+              value={heartPoints}
+              onChange={(e) => setHeartPoints(e.target.value)}
+            />
+          </div>
+          <div>
+            
+              <img
+                src="./src/assets/gamePlay/pawCoin.png"
+                alt="Coins"
+                className={styles.img}
+              />
+           
+            <input
+              type="number"
+              value={coinPoints}
+              onChange={(e) => setCoinPoints(e.target.value)}
+            />
+          </div>
+          <button className={styles.addBtn} onClick={handleSubmit} disabled={loading}>
+            {loading ? "Updating..." : "Add"}
+          </button>
+        </div>
       </div>
     </div>
   );

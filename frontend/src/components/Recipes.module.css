@@ -1,37 +1,73 @@
 .pageCtn {
-  padding: 2rem;
+  padding: 1rem;
+  padding-top: 0;
+  overflow-y: auto;
+  height: 27rem;
 }
 
-.recipesCtn {
+.recipesCtn,
+.newRecipeRow {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 2.5rem;
   margin-bottom: 1rem;
+  border: 2px solid #9a5e1e;
+  border-radius: 20px;
 }
 
-.recipesCtn button {
+.newRecipeRow {
+  border: none;
+}
+
+.itemImg {
+  width: 5rem;
+  height: 5rem;
+  object-fit: cover;
+}
+
+.itemBox {
+  height: 5rem;
+  width: 5rem;
+  margin: 0.5rem;
+}
+
+.ingCtn {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  margin-left: 1rem;
+}
+
+.deleteBtn {
+  margin-left: 6rem;
   padding: 0.5rem 1rem;
   background: #f0b352;
   border: 2px solid #9a5e1e;
   border-radius: 6px;
   font-weight: bold;
-  cursor: pointer;
-}
-
-.recipesCtn span {
   font-size: 1.2rem;
-  font-weight: bold;
+  color: #533514;
 }
 
-.recipesCtn {
+.saveBtn {
+  margin-left: 6.5rem;
+  margin-top: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: #f1dbb8;
+  border: 2px solid #9a5e1e;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: #533514;
+}
+
+.ingBox {
+  height: 5rem;
+  width: 5rem;
+  margin: 0.5rem;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
-}
-
-.itemImg {
-  width: 40px;
-  height: 40px;
-  object-fit: contain;
+  justify-content: center;
+  border: 2px solid #9a5e1e;
+  border-radius: 20px;
 }

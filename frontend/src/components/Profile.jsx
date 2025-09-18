@@ -42,12 +42,37 @@ const Profile = () => {
   return (
     <div className={styles.profileCtn}>
       <div className={styles.profileInfoCtn}>
-        <div>Username: {username}</div>
-        <div>Joined since: {joinedSince}</div>
-        <div>Current heart count: {heartCount}</div>
-        <div>Current coin count: {coinCount}</div>
-        <div>Total earned coins: {totalCoinsEarned}</div>
-        <div>Total earned hearts: {totalHeartsEarned}</div>
+        <table className={styles.profileTable}>
+  <tbody>
+    <tr>
+      <td className={styles.key}>Username:</td>
+      <td className={styles.value}>
+        <span className={styles.username}>{username}</span>
+      </td>
+    </tr>
+    <tr>
+      <td className={styles.key}>Joined since:</td>
+      <td className={styles.value}>{joinedSince}</td>
+    </tr>
+    <tr>
+      <td className={styles.key}>Current heart count:</td>
+      <td className={styles.value}>{heartCount}</td>
+    </tr>
+    <tr>
+      <td className={styles.key}>Current coin count:</td>
+      <td className={styles.value}>{coinCount}</td>
+    </tr>
+    <tr>
+      <td className={styles.key}>Total earned coins:</td>
+      <td className={styles.value}>{totalCoinsEarned}</td>
+    </tr>
+    <tr>
+      <td className={styles.key}>Total earned hearts:</td>
+      <td className={styles.value}>{totalHeartsEarned}</td>
+    </tr>
+  </tbody>
+</table>
+
       </div>
       <div className={styles.btnCtn}>
         <button className={styles.logoutBtn} onClick={handleLogout}>

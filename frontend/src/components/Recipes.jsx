@@ -99,8 +99,71 @@ const Recipes = () => {
 
   return (
     <div className={styles.pageCtn}>
+      {/* user add new recipe */}
+      <div className={styles.newRecipeRow}>
+        {["ing1", "ing2", "ing3"].map((slot, idx) => {
+          //run for ing123 only
+          const item = findItem(newRecipe[slot]);
+          return (
+            <div
+              key={slot}
+              className={styles.itemBox}
+              onClick={() => {
+                setActiveSlot(slot);
+                setModalOpen(true);
+              }}
+            >
+              <div className={styles.ingBox}>
+                {item ? (
+                  <img
+                    src={getImage(item.image_url, "ingredient")}
+                    alt={item.name}
+                    className={styles.itemImg}
+                  />
+                ) : (
+                  `Empty`
+                )}
+                </div>
+              </div>
+            
+          );
+        })}
+
+        <div>=</div>
+
+        <div
+          className={styles.itemBox}
+          onClick={() => {
+            setActiveSlot("combined");
+            setModalOpen(true);
+          }}
+        >
+          <div className={styles.ingBox}>
+            {newRecipe.combined
+              ? (() => {
+                  const item = findItem(newRecipe.combined);
+                  return item ? (
+                    <img
+                      src={getImage(item.image_url, "menu")}
+                      alt={item.name}
+                      className={styles.itemImg}
+                    />
+                  ) : (
+                    "Combined Item" //fallback if id but not in catalog
+                  );
+                })()
+              : "Empty"}
+            {/* change to empty or something */}
+          </div>
+        </div>
+
+        <button className={styles.saveBtn} onClick={handleSave}>
+          save
+        </button>
+      </div>
+
       {/* display existing recipes */}
-      <div>
+      <div className={styles.recipesList}>
         {recipes &&
           recipes.map((recipe) => {
             //grab user recipe and send to array
@@ -109,23 +172,25 @@ const Recipes = () => {
 
             return (
               <div key={recipe.id} className={styles.recipesCtn}>
-                {/* show ingredients */}
-                {ingredients.map((ing, idx) => {
-                  const item = findItem(ing); //find is in catalog
-                  return (
-                    <div key={idx} className={styles.itemBox}>
-                      {item && ( //show from catalog info
-                        <img
-                          src={getImage(item.image_url, "ingredient")}
-                          alt={item.name}
-                          className={styles.itemImg}
-                        />
-                      )}
-                    </div>
-                  );
-                })}
+                <div className={styles.ingCtn}>
+                  {/* show ingredients */}
+                  {ingredients.map((ing, idx) => {
+                    const item = findItem(ing); //find is in catalog
+                    return (
+                      <div key={idx} className={styles.itemBox}>
+                        {item && ( //show from catalog info
+                          <img
+                            src={getImage(item.image_url, "ingredient")}
+                            alt={item.name}
+                            className={styles.itemImg}
+                          />
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
 
-                <span>=</span>
+                <div>=</div>
 
                 {/* show combined */}
                 <div className={styles.itemBox}>
@@ -146,66 +211,15 @@ const Recipes = () => {
                   {/* if recipe.combined = null - user can choose not to insert */}
                 </div>
 
-                <button onClick={() => handleDelete(recipe.id)}>delete</button>
+                <button
+                  className={styles.deleteBtn}
+                  onClick={() => handleDelete(recipe.id)}
+                >
+                  delete
+                </button>
               </div>
             );
           })}
-      </div>
-
-      {/* user add new recipe */}
-      <div className={styles.newRecipeRow}>
-        {["ing1", "ing2", "ing3"].map((slot, idx) => {
-          //run for ing123 only
-          const item = findItem(newRecipe[slot]);
-          return (
-            <div
-              key={slot}
-              className={styles.itemBox}
-              onClick={() => {
-                setActiveSlot(slot);
-                setModalOpen(true);
-              }}
-            >
-              {item ? (
-                <img
-                  src={getImage(item.image_url, "ingredient")}
-                  alt={item.name}
-                  className={styles.itemImg}
-                />
-              ) : (
-                `ing ${idx + 1}` //change to empty or something
-              )}
-            </div>
-          );
-        })}
-
-        <span>=</span>
-
-        <div
-          className={styles.itemBox}
-          onClick={() => {
-            setActiveSlot("combined");
-            setModalOpen(true);
-          }}
-        >
-          {newRecipe.combined
-            ? (() => {
-                const item = findItem(newRecipe.combined);
-                return item ? (
-                  <img
-                    src={getImage(item.image_url, "menu")}
-                    alt={item.name}
-                    className={styles.itemImg}
-                  />
-                ) : (
-                  "Combined Item" //fallback if id but not in catalog
-                );
-              })()
-            : "combined"}
-          {/* change to empty or something */}
-        </div>
-
-        <button onClick={handleSave}>save</button>
       </div>
 
       <CatalogModal
