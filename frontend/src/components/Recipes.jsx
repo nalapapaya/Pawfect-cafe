@@ -67,7 +67,6 @@ const Recipes = () => {
         setMessage("Recipe didn't get saved! Please try again later.");
         return;
       }
-      console.log("Recipe saved!", res);
       queryClient.invalidateQueries(["recipes"]);
       setNewRecipe({ ing1: null, ing2: null, ing3: null, combined: null });
     } catch (err) {
@@ -88,7 +87,6 @@ const Recipes = () => {
         console.error("Delete failed:", res.msg);
         return;
       }
-      console.log("Recipe deleted!", id);
       queryClient.invalidateQueries(["recipes"]);
     } catch (err) {
       console.error("Error deleting recipe:", err);

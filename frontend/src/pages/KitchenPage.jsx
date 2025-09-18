@@ -16,38 +16,6 @@ const KitchenPage = () => {
   const [combinedItem, setCombinedItem] = useState(null);
   const queryClient = useQueryClient();
   const filledSlots = ingredients.filter((slot) => slot !== null); // only slots with ingredient
-  // const canCombine = filledSlots.length >= 2; //can only combine with 2 or more
-
-  // helper fn to commit mutation
-  const commitIngredients = async (slots) => {
-    const payload = slots.map((item) => ({
-      item_id: item.id,
-      qty: -1,
-    }));
-
-    const res = await fetchData(
-      "/manage/inventory",
-      "POST",
-      payload,
-      accessToken
-    );
-    if (res && res.ok === false) {
-      //safer to use data
-      throw new Error(res.msg || "Failed to update inventory");
-    }
-    return res;
-  };
-
-  // mutation
-  const mutation = useMutation({
-    mutationFn: commitIngredients,
-    onSuccess: () => {
-      queryClient.invalidateQueries(["inventoryRaw"]); //refresh raw inventory
-    },
-    onError: (e) => {
-      console.error("Inventory update failed:", e.message);
-    },
-  });
 
   const handleAddIngredient = (item) => {
     if (item.qty <= 0) return; // nothing to add if qty is 0
@@ -100,7 +68,6 @@ const KitchenPage = () => {
       );
 
       if (res?.ok === false || res?.status === "error") {
-        console.log(`Combine failed: ${res.msg}`);
         setMessage("Failed to combine, please try again later.");
         return;
       }

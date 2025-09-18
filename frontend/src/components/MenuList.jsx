@@ -14,7 +14,7 @@ const MenuList = ({handleFeed}) => {
 
   // Fetch inventory from backend
   const fetchInventory = async () => {
-    if (!accessToken) {
+    if (!accessToken) { //no fetch if no token
       throw new Error("No access token available"); //set isError
     }
 
@@ -41,46 +41,12 @@ const MenuList = ({handleFeed}) => {
     }));
   };
 
-  // dispose/update inventory item
-  const disposeItem = async ({ itemId, qtyChange }) => {
-    if (!accessToken) {
-      throw new Error("No access token available");
-    }
-
-    const res = await fetchData(
-      "/manage/inventory",
-      "POST",
-      [
-        {
-          item_id: itemId,
-          qty: qtyChange, // negative to deduct
-        },
-      ],
-      accessToken
-    );
-
-    if (res && res.ok === false) {
-      //safer if return data only
-      throw new Error(res.msg || "Failed to update inventory");
-    }
-    return res;
-  };
-
   //load inv
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ["inventory"],
     queryFn: fetchInventory,
   });
 
-  const mutation = useMutation({
-    mutationFn: disposeItem,
-    onSuccess: () => {
-      queryClient.invalidateQueries(["inventory"]); // refetch inventory list
-    },
-    onError: (e) => {
-      console.error("Failed to dispose item:", e.message);
-    },
-  });
 
   if (!accessToken) {
     return <p>Login to view the menu.</p>;
@@ -119,7 +85,7 @@ const MenuList = ({handleFeed}) => {
             onClick={() => setPage((p) => Math.max(p - 1, 0))}
             className={styles.pageBtn}
           >
-            {/* graphisc tech */}
+            {/* scalable vectors graphics */}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"

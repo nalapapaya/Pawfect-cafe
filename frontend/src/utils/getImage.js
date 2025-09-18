@@ -7,10 +7,6 @@ const menuImages = import.meta.glob("../assets/foods/Menu/*", { eager: true });
 export const getImage = (filename, type) => {
   //filename = string in db
   let key; //exact file path to lookup
-  //   console.log("search:", filename, "in", type);
-  //   console.log("ingredientImages:", Object.keys(ingredientImages)); //print all ingredients found
-  //   console.log("menuImages:", Object.keys(menuImages)); //print all menu found
-  // console.log("glob returns:", ingredientImages["../assets/foods/Ingredients/broccoli.png"]); // {default: "/src/assets/foods/Ingredients/broccoli.png"}
 
   if (type === "ingredient") {
     // for raw ingredients in inv

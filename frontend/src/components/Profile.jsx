@@ -6,9 +6,6 @@ import styles from './Profile.module.css'
 const Profile = () => {
   const { username, setUsername, setAccessToken, setRefreshToken, joinedSince, setJoinedSince, totalCoinsEarned, setTotalCoinsEarned, totalHeartsEarned, setTotalHeartsEarned, heartCount, coinCount } = useGame();
   const nav = useNavigate();
-  // console.log("joinedSince in Profile:", joinedSince);
-  // console.log(totalHeartsEarned)
-  // console.log("Profile scores:", heartCount, coinCount, totalHeartsEarned, totalCoinsEarned);
 
   const goToHome = () => {
     nav("/");

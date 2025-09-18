@@ -9,9 +9,9 @@ const InventoryList = ({ onSelectItem, tempInventory }) => {
   const { accessToken } = useGame();
   const fetchData = useFetch();
   const queryClient = useQueryClient();
-  const [page, setPage] = useState(0);
-  const itemsPerPage = 16;
-  const [slicedData, setSlicedData] = useState([]);
+  const [page, setPage] = useState(0); // current page 0
+  const itemsPerPage = 16; //max items before spilling next page
+  const [slicedData, setSlicedData] = useState([]); //part of data after dividing into pages
 
   // Fetch inventory from backend
   const fetchInventory = async () => {
@@ -83,12 +83,17 @@ const InventoryList = ({ onSelectItem, tempInventory }) => {
     },
   });
 
+  const handleDispose = (itemId, qtyChange = -1) => {
+    //user only can use 1 item each time
+    mutation.mutate({ itemId, qtyChange });
+  };
+
   useEffect(() => {
     if (data) {
       //if data res is true
       setSlicedData(
         data
-          .sort((a, b) => a.id - b.id)
+          .sort((a, b) => a.id - b.id) //sort by id so inv doesnt keep jumping
           .slice(page * itemsPerPage, (page + 1) * itemsPerPage) //slice this data into different pages
       );
     }
@@ -98,9 +103,7 @@ const InventoryList = ({ onSelectItem, tempInventory }) => {
     //why put here
     return <p>Login to view your inventory.</p>;
   }
-
   if (isLoading) return <p>Loading inventory..</p>;
-
   if (isError) {
     //backend error
     return (
@@ -109,7 +112,6 @@ const InventoryList = ({ onSelectItem, tempInventory }) => {
       </p>
     );
   }
-
   if (!data || data.length === 0) {
     return <p>Your inventory is empty.</p>;
   }
@@ -119,24 +121,18 @@ const InventoryList = ({ onSelectItem, tempInventory }) => {
       <div className={styles.invItemsCtn}>
         {slicedData.map((item) => {
           const adjustedQty =
-            tempInventory && tempInventory[item.id] !== undefined
-              ? tempInventory[item.id]
-              : item.qty;
+            tempInventory && tempInventory[item.id] !== undefined //if temp has this item
+              ? tempInventory[item.id] //adjust with frontend qty
+              : item.qty; //else use backend qty
 
           return (
             <div
               key={item.id}
-              onClick={() => adjustedQty > 0 && onSelectItem(item)}
+              onClick={() => adjustedQty > 0 && onSelectItem(item)} //allow select only if user has >=1
             >
               <ItemsCard
                 item={{ ...item, qty: adjustedQty }} // show adjusted qty
-                onDispose={(qtyChange = -1) =>
-                  mutation.mutate({
-                    //to refractor
-                    itemId: item.id,
-                    qtyChange,
-                  })
-                }
+                onDispose={(qtyChange) => handleDispose(item.id, qtyChange)}
                 isKitchenPage
               />
             </div>

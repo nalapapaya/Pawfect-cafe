@@ -25,7 +25,6 @@ export const GameProvider = ({ children }) => {
   const [joinedSince, setJoinedSince] = useState(
     () => localStorage.getItem("joinedSince") || ""
   );
-  //   console.log("joinedSince in GameContext:", joinedSince);
   const [totalHeartsEarned, setTotalHeartsEarned] = useState(
     () => parseInt(localStorage.getItem("totalHeartsEarned")) || 0
   );

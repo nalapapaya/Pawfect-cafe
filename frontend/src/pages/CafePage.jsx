@@ -92,8 +92,6 @@ const CafePage = () => {
         // rollback if backend fails (to match backend)
         setHeartCount((prev) => prev - heartPoints);
         setCoinCount((prev) => prev - coinPoints);
-      } else {
-        console.log("Score updated:", scoreRes.msg);
       }
 
       // reset after feeding animation

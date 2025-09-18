@@ -32,6 +32,7 @@ def get_user_raw_inventory():
                    "JOIN items AS i ON inv.item_id = i.id " #link both using item id
                    "WHERE inv.user_id = %s AND i.item_type = 'raw';", (user['uuid'],))
     rows = cursor.fetchall()
+
     release_connection(conn)
     return jsonify(rows), 200
 
@@ -54,37 +55,9 @@ def get_user_menu_inventory():
                    "JOIN items AS i ON inv.item_id = i.id "
                    "WHERE inv.user_id = %s AND i.item_type = 'combined';", (user['uuid'],))
     rows = cursor.fetchall()
+
     release_connection(conn)
     return jsonify(rows), 200
-
-@manage.route('/inventory', methods=['PUT'])
-@jwt_required()
-def add_inventory():
-    username = get_jwt_identity()
-    conn, cursor = get_cursor()
-
-    try:
-        # fetch user
-        cursor.execute("SELECT uuid FROM auth WHERE username=%s;", (username,))
-        user = cursor.fetchone()
-        if not user:
-            return jsonify(status='error', msg='User not found'), 404
-
-        user_id = user['uuid']
-        data = request.get_json()
-
-        cursor.execute("INSERT INTO inventory (user_id, item_id, quantity) VALUES(%s, %s, %s);",
-                       (user_id, data['item_id'], data['quantity']))
-
-        conn.commit()
-        return jsonify(status='success', msg='Inventory added'), 201
-
-    except Exception as e:
-        conn.rollback()  # rollback when error
-        return jsonify(status='error', msg=str(e)), 500
-
-    finally:
-        release_connection(conn)
 
 @manage.route('/inventory', methods=['POST'])
 @jwt_required()
@@ -234,11 +207,20 @@ def combine_food():
         item_name = result_item['name'] if result_item else f"Item {result_item_id}"
 
         conn.commit()
+
+        cursor.execute(
+            "SELECT id, name, image_url, item_type, diet_type "
+            "FROM items WHERE id = %s",
+            (result_item_id,)
+        )
+        combined_item = cursor.fetchone()
+
         return jsonify(
             status="ok",
             msg=f"Combined into {item_name}",
             item_id=result_item_id,
-            item_name=item_name
+            item_name=item_name,
+            image_url=combined_item["image_url"],
         ), 200
 
     except Exception as e:
@@ -246,3 +228,4 @@ def combine_food():
         return jsonify(status="error", msg=str(e)), 500
     finally:
         release_connection(conn)
+

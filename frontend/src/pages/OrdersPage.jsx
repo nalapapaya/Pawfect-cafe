@@ -81,7 +81,6 @@ const OrdersPage = () => {
     const totalCost = getTotalCost();
 
     if (coinCount < totalCost) {
-      console.log("Not enough coins");
       setMessage("You don't have enough coins. Feed some pets to earn coins!");
       return;
     }
@@ -102,7 +101,6 @@ const OrdersPage = () => {
       if (invRes?.ok === false || invRes?.status === "error") {
         // rollback coins if failed
         setCoinCount((prev) => prev + totalCost);
-        console.log(`Purchase failed: ${invRes.msg}`);
         setMessage("Purchase failed. Please try again later.");
         return;
       }
@@ -116,10 +114,7 @@ const OrdersPage = () => {
       );
 
       if (scoreRes?.ok === false || scoreRes?.status === "error") {
-        console.log("Coin deduction failed:", scoreRes.msg);
         setMessage("Something went wrong and you got the item at no cost!");
-      } else {
-        console.log("Score updated:", scoreRes.msg);
       }
 
       // clear cart after success
@@ -127,7 +122,6 @@ const OrdersPage = () => {
         setPurchasedItems(cart); //keep copy for modal
         setCart([]);
         setShowModal(true);
-        console.log("Purchase successful");
       } else {
         setMessage("There's nothing in cart, add some goodies!");
       }

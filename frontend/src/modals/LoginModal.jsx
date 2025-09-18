@@ -40,7 +40,6 @@ const LoginModal = ({ onClose }) => {
         setAccessToken(res.access);
         setUsername(res.username);
         setJoinedSince(res.joined_since);
-        // console.log(res.data);
 
         //fetch score after acquiring token
         const userScore = await fetchData("/api/score", "GET", null, res.access);

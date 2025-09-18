@@ -13,7 +13,6 @@ const ItemsCard = ({
     item.image_url,
     item.item_type === "raw" ? "ingredient" : "menu"
   );
-  // console.log("item:", item.name, "db filename:", item.image_url, "path:", imageSrc);
 
   const handleClick = () => {
     if (isMenu && handleFeed) {
