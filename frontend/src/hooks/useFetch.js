@@ -48,7 +48,6 @@ const useFetch = () => {
 
       // try refresh if expire
       if (res.status === 401 && retry && refreshToken) {
-        console.log("Access expired, trying refresh...");
         try {
           const refreshRes = await fetch(
             import.meta.env.VITE_SERVER + "/auth/refresh",
@@ -75,7 +74,6 @@ const useFetch = () => {
 
           //store new token
           setAccessToken(refreshData.access || refreshData.access_token);
-          console.log("Token refreshed:", new Date().toLocaleTimeString());
 
           // retry with new token
           return fetchData(
