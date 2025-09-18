@@ -15,16 +15,13 @@ const queryClient = new QueryClient();
 
 const App = () => {
   const location = useLocation(); //gets current pathname
-  // console.log(location);
-  const hideNav = location.pathname === "/";
+  const hideComp = location.pathname === "/";
   const { message, setMessage } = useGame();
   
-
   return (
     <>
       <div className="appCtn">
         <QueryClientProvider client={queryClient}>
-          
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/cafe" element={<CafePage />} />
@@ -33,7 +30,7 @@ const App = () => {
               <Route path="/settings" element={<SettingsPage />} />
             </Routes>
 
-            {!hideNav && (
+            {!hideComp && (
               <>
                 <NavBar />
                 <Banner />

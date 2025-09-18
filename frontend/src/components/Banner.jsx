@@ -20,19 +20,20 @@ const Banner = () => {
     nav("/settings");
   };
 
-  useEffect(() => {
-    const loadScores = async () => {
-      if (!accessToken) return;
-      try {
-        const res = await fetchData("/api/score", "GET", null, accessToken);
-        if (res) {
-          setHeartCount(res.heart_score);
-          setCoinCount(res.coin_score);
-        }
-      } catch (e) {
-        console.error("Failed to load scores:", e);
+  const loadScores = async () => {
+    if (!accessToken) return;
+    try {
+      const res = await fetchData("/api/score", "GET", null, accessToken);
+      if (res) {
+        setHeartCount(res.heart_score);
+        setCoinCount(res.coin_score);
       }
-    };
+    } catch (e) {
+      console.error("Failed to load scores:", e);
+    }
+  };
+
+  useEffect(() => {
     loadScores();
   }, [accessToken]);
 

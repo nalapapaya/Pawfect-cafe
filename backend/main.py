@@ -1,6 +1,5 @@
 import os
 
-# import psycopg2
 from flask import Flask, jsonify
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager
@@ -8,8 +7,6 @@ from resources.auth import auth
 from resources.game import game
 from resources.manage import manage
 from resources.recipes import recipes
-
-# from db.db_pool import get_cursor, release_connection
 
 app = Flask(__name__) #this file name
 CORS(app)
@@ -24,8 +21,6 @@ jwt=JWTManager(app) #distributes JWT related info to whoever needs it
 @jwt.revoked_token_loader
 def my_jwt_error_callback(*args): #function called when error occurs
     return jsonify(msg='access denied'), 401 #send a generic error msg
-
-# app.register_blueprint(tools)
 
 app.register_blueprint(auth, url_prefix='/auth')
 app.register_blueprint(game, url_prefix='/api')
