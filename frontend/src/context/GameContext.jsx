@@ -4,7 +4,7 @@ export const GameContext = createContext();
 
 export const useGame = () => useContext(GameContext);
 
-export const GameProvider = ({ children }) => {
+export const GameProvider = ({ children }) => { //redux
   //children = everything in here gets passed
   const [coinCount, setCoinCount] = useState(0);
   const [heartCount, setHeartCount] = useState(0);
